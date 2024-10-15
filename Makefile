@@ -12,8 +12,7 @@ INSTALL_DIRECTORY := /usr/local/bin
 MINIAUDIO_FLAGS := -DMA_IMPLEMENTATION $\
 									 -DMA_ENABLE_ONLY_SPECIFIC_BACKENDS -DMA_ENABLE_PULSEAUDIO $\
 									 -DMA_NO_ENCODING $\
-									 -DMA_NO_GENERATION $\
-									 -DMA_NO_WAV -DMA_NO_FLAC -w
+									 -DMA_NO_GENERATION -w
 TERMBOX2_FLAGS := -DTB_IMPL -w
 
 PPLAYER_OBJECT_FILES := build/miniaudio.h.o build/termbox2.h.o $\
