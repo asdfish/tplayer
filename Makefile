@@ -7,6 +7,8 @@ CXX_STANDARD := -std=c++98
 INCLUDE_FLAGS := -Iinclude -Ideps/soloud/include -Ideps/termbox2
 LINK_FLAGS := -Lbuild -lsoloud -lopenmpt
 
+INSTALL_DIRECTORY := /usr/local/bin
+
 # "$(find deps/soloud/src -type f | grep '\.c' | grep -v 'backend' | grep -v 'tools') deps/soloud/src/backend/miniaudio/soloud_miniaudio.cpp"
 SOLOUD_SOURCE_FILES := deps/soloud/src/audiosource/ay/chipplayer.cpp $\
 											 deps/soloud/src/audiosource/ay/sndbuffer.cpp $\
@@ -161,3 +163,11 @@ run: all
 
 test: all
 	valgrind --gen-suppressions=all --log-file=valgrind_log.txt ./tplayer
+
+install: all uninstall ${INSTALL_DIRECTORY}
+	cp tplayer ${INSTALL_DIRECTORY}
+
+uninstall:
+ifneq (, $(wildcard ${INSTALL_DIRECTORY}/tplayer))
+	rm ${INSTALL_DIRECTORY}/tplayer
+endif
