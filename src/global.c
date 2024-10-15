@@ -1,7 +1,7 @@
 #include <global.h>
 #include <termbox2.h>
 
-const char* playlists_directory = "/home/andre/files/music";
+const char* playlists_directory = "/path/to/your/playlist/directory";
 
 const char* menu_selection_prefix = "> ";
 

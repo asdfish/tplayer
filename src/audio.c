@@ -1,56 +1,45 @@
 #include <audio.h>
+#include <miniaudio.h>
 
-#include <soloud_c.h>
+ma_engine engine;
+ma_sound sound;
+bool started = false;
 
-#include <stddef.h>
-
-Soloud* soloud = NULL;
-WavStream* wav_stream = NULL;
-
-int audio_init(void) {
-  soloud = Soloud_create();
-  if(soloud == NULL)
-    return -1;
-
-  if(Soloud_init(soloud) != 0) {
-    Soloud_destroy(soloud);
-    return -1;
-  }
-
-  wav_stream = WavStream_create();
-  if(wav_stream == NULL) {
-    Soloud_deinit(soloud);
-    Soloud_destroy(soloud);
-    return -1;
-  }
-
-  return 0;
+void sound_stop() {
+  ma_sound_stop(&sound);
+  ma_sound_uninit(&sound);
 }
 
-bool audio_is_playing(void) {
-  return soloud != NULL && Soloud_getVoiceCount(soloud) > 0 ? true : false;
+int audio_init() {
+  if(ma_engine_init(NULL, &engine) != MA_SUCCESS)
+    return -1;
+  return 0;
 }
 
 int audio_play(const char* path) {
-  if(soloud == NULL || wav_stream == NULL || path == NULL)
+  if(started)
+    sound_stop();
+
+  if(ma_sound_init_from_file(&engine, path, MA_SOUND_FLAG_STREAM, NULL, NULL, &sound) != MA_SUCCESS)
     return -1;
+  ma_sound_start(&sound);
 
-  Soloud_stopAll(soloud);
-  WavStream_stop(wav_stream);
-
-  if(WavStream_load(wav_stream, path) != 0)
-    return -1;
-  Soloud_play(soloud, wav_stream);
-
+  if(!started)
+    started = true;
   return 0;
 }
 
-void audio_uninit(void) {
-  if(wav_stream != NULL)
-    WavStream_destroy(wav_stream);
+bool audio_is_playing() {
+  if(!started)
+    return false;
 
-  if(soloud != NULL) {
-    Soloud_deinit(soloud);
-    Soloud_destroy(soloud);
-  }
+  return ma_sound_is_playing(&sound);
+}
+
+void audio_uninit() {
+  if(started)
+    sound_stop();
+
+  ma_engine_stop(&engine);
+  ma_engine_uninit(&engine);
 }
