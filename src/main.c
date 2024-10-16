@@ -1,6 +1,7 @@
 #include <audio.h>
 #include <directory.h>
 #include <global.h>
+#include <global_check.h>
 #include <menu.h>
 
 #include <termbox2.h>
