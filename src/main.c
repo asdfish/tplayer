@@ -20,14 +20,14 @@ int main(void) {
   // allocating
   const char** playlist_paths;
   unsigned int playlist_paths_length;
-  if(directory_directory_paths(playlists_directory, &playlist_paths, &playlist_paths_length) != 0) {
-    fprintf(stderr, "Failed to get the path of directories in %s\n", playlists_directory);
+  if(directory_directory_paths(PLAYLISTS_DIRECTORY, &playlist_paths, &playlist_paths_length) != 0) {
+    fprintf(stderr, "Failed to get the path of directories in %s\n", PLAYLISTS_DIRECTORY);
     goto exit;
   }
   const char** playlist_names;
   unsigned int playlist_names_length;
-  if(directory_directory_names(playlists_directory, &playlist_names, &playlist_names_length) != 0) {
-    fprintf(stderr, "Failed to get the name of directories in %s\n", playlists_directory);
+  if(directory_directory_names(PLAYLISTS_DIRECTORY, &playlist_names, &playlist_names_length) != 0) {
+    fprintf(stderr, "Failed to get the name of directories in %s\n", PLAYLISTS_DIRECTORY);
     goto free_playlist_paths;
   }
 

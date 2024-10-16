@@ -1,8 +1,6 @@
 #include <global.h>
 #include <termbox2.h>
 
-const char* playlists_directory = "/path/to/your/playlists";
-
 const char* menu_selection_prefix = "> ";
 
 const unsigned int frame_rate = 1000 / 24;
