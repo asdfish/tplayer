@@ -189,49 +189,49 @@ int main(void) {
     }
 
     switch(event.ch) {
-      case 'q':
+      case KEY_MAP_QUIT:
         goto quit;
-      case 'h':
+      case KEY_MAP_MENU_MOVE_LEFT:
         if(menu == 1) {
           menu = 0;
           redraw_menus = true;
         }
         continue;
-      case 'l':
+      case KEY_MAP_MENU_MOVE_RIGHT:
         if(menu == 0) {
           menu = 1;
           redraw_menus = true;
         }
         continue;
-      case 'j':
+      case KEY_MAP_MENU_MOVE_DOWN:
         if(menu == 0)
           menu_move_cursor(&playlist_menu, 1);
         else
           menu_move_cursor(&song_menus[playlist_menu.selection], 1);
         redraw_menus = true;
         continue;
-      case 'k':
+      case KEY_MAP_MENU_MOVE_UP:
         if(menu == 0)
           menu_move_cursor(&playlist_menu, -1);
         else
           menu_move_cursor(&song_menus[playlist_menu.selection], -1);
         redraw_menus = true;
         continue;
-      case 'p':
-        global_change_play_method();
-        redraw_play_method = true;
-        continue;
-      case 's':
-        switch_song = true;
-        redraw_menus = true;
-        continue;
-      case ' ':
+      case KEY_MAP_MENU_SELECT:
         if(menu == 0)
           menu_select(&playlist_menu);
         else {
           menu_select(&song_menus[playlist_menu.selection]);
           restart_song = true;
         }
+        redraw_menus = true;
+        continue;
+      case KEY_MAP_CHANGE_PLAY_METHOD:
+        global_change_play_method();
+        redraw_play_method = true;
+        continue;
+      case KEY_MAP_SWITCH_SONG:
+        switch_song = true;
         redraw_menus = true;
         continue;
     }

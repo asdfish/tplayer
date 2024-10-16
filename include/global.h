@@ -24,6 +24,19 @@ extern const unsigned int frame_rate;
 #define PLAY_PERCENTAGE_FOREGROUND TB_WHITE
 #define PLAY_PERCENTAGE_BACKGROUND TB_BLACK
 
+#define KEY_MAP_MENU_MOVE_UP 'k'
+#define KEY_MAP_MENU_MOVE_DOWN 'j'
+#define KEY_MAP_MENU_MOVE_LEFT 'h'
+#define KEY_MAP_MENU_MOVE_RIGHT 'l'
+
+#define KEY_MAP_MENU_SELECT ' '
+
+#define KEY_MAP_QUIT 'q'
+
+#define KEY_MAP_CHANGE_PLAY_METHOD 'p'
+
+#define KEY_MAP_SWITCH_SONG 's'
+
 extern unsigned int menu_selection_prefix_length;
 
 extern unsigned int terminal_width, terminal_height;
