@@ -7,13 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#if SWITCH_SONG_METHOD == random
 #include <time.h>
-#endif
-
-#if SWITCH_SONG_METHOD != random && SWITCH_SONG_METHOD != order
-#error Invalid SWITCH_SONG_METHOD
-#endif
 
 int exit_code = -1;
 
@@ -93,7 +87,7 @@ int main(void) {
   }
 
   struct Menu playlist_menu = {
-    0, 0, 0, 0,
+    0, 1, 0, 0,
     0, 0,
     true, 0,
     NULL, NULL, 0,
@@ -112,7 +106,7 @@ int main(void) {
   unsigned int song_menus_end = playlist_paths_length;
   for(unsigned int i = 0; i < playlist_paths_length; i ++) {
     song_menus[i].x = 0;
-    song_menus[i].y = 0;
+    song_menus[i].y = 1;
     song_menus[i].enable_selections = true;
     song_menus[i].selection = 0;
 
@@ -122,7 +116,7 @@ int main(void) {
     }
   }
 
-  global_init();
+  global_set_menu_selection_prefix_length();
 
   if(audio_init() != 0) {
     fprintf(stderr, "Soloud\n");
@@ -137,18 +131,16 @@ int main(void) {
   bool redraw = true;
   bool menu = false;
 
-#if SWITCH_SONG_METHOD == random
   srand(time(NULL));
-#endif
   while(true) {
     if(!audio_is_playing()) {
-#if SWITCH_SONG_METHOD == random
-      song_menus[playlist_menu.selection].selection = rand() % song_path_lengths[playlist_menu.selection];
-#elif SWITCH_SONG_METHOD == order
-      song_menus[playlist_menu.selection].selection ++;
-      if(song_menus[playlist_menu.selection].selection > song_path_lengths[playlist_menu.selection])
-        song_menus[playlist_menu.selection].selection = 0;
-#endif
+      if(play_method == 0) {
+        song_menus[playlist_menu.selection].selection = rand() % song_path_lengths[playlist_menu.selection];
+      } else if(play_method == 1) {
+        song_menus[playlist_menu.selection].selection ++;
+        if(song_menus[playlist_menu.selection].selection > song_path_lengths[playlist_menu.selection])
+          song_menus[playlist_menu.selection].selection = 0;
+      }
       switch_song = true;
     }
 
@@ -204,6 +196,10 @@ int main(void) {
           menu_move_cursor(&playlist_menu, -1);
         else
           menu_move_cursor(&song_menus[playlist_menu.selection], -1);
+        redraw = true;
+        continue;
+      case 'p':
+        global_change_play_method();
         redraw = true;
         continue;
       case ' ':
@@ -282,18 +278,30 @@ exit:
 void draw_menus(struct Menu* playlist_menu, struct Menu* song_menus, bool cursor_x) {
   menu_draw(playlist_menu, !cursor_x);
   menu_draw(&song_menus[playlist_menu->selection], cursor_x);
+
+  char* play_method_text = NULL;
+  switch(play_method) {
+    case 0:
+      play_method_text = "random";
+      break;
+    case 1:
+      play_method_text = "order";
+      break;
+  }
+
+  tb_print(0, 0, PLAY_METHOD_INDICATOR_FOREGROUND, PLAY_METHOD_INDICATOR_BACKGROUND, play_method_text);
 }
 
 void resize_menus(struct Menu* playlist_menu, struct Menu* song_menus, unsigned int song_menus_length) {
   global_set_terminal_size();
   playlist_menu->width = terminal_width * MENU_SPLIT_PERCENT;
-  playlist_menu->height = terminal_height;
+  playlist_menu->height = terminal_height - 2;
 
   unsigned int song_menus_width = terminal_width - playlist_menu->width;
 
   for(unsigned int i = 0; i < song_menus_length; i ++) {
     song_menus[i].x = playlist_menu->width;
     song_menus[i].width = song_menus_width;
-    song_menus[i].height = terminal_height;
+    song_menus[i].height = terminal_height - 2;
   }
 }
