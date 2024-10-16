@@ -128,30 +128,32 @@ int main(void) {
   resize_menus(&playlist_menu, song_menus, playlist_paths_length);
 
   bool switch_song = true;
+  bool restart_song = true;
   bool redraw = true;
   bool menu = false;
 
   srand(time(NULL));
   while(true) {
-    if(!audio_is_playing()) {
+    if(!audio_is_playing() || switch_song) {
       if(play_method == 0) {
         song_menus[playlist_menu.selection].selection = rand() % song_path_lengths[playlist_menu.selection];
       } else if(play_method == 1) {
         song_menus[playlist_menu.selection].selection ++;
-        if(song_menus[playlist_menu.selection].selection > song_path_lengths[playlist_menu.selection])
+        if(song_menus[playlist_menu.selection].selection >= song_path_lengths[playlist_menu.selection])
           song_menus[playlist_menu.selection].selection = 0;
       }
-      switch_song = true;
+      switch_song = false;
+      restart_song = true;
     }
 
-    if(switch_song) {
+    if(restart_song) {
       if(audio_play(song_paths[playlist_menu.selection][song_menus[playlist_menu.selection].selection]) != 0) {
         tb_shutdown();
         fprintf(stderr, "Failed to play %s\n", song_paths[playlist_menu.selection][song_menus[playlist_menu.selection].selection]);
         goto audio_uninit;
       }
       redraw = true;
-      switch_song = false;
+      restart_song = false;
     }
 
     if(redraw) {
@@ -200,6 +202,10 @@ int main(void) {
         continue;
       case 'p':
         global_change_play_method();
+        redraw = true;
+        continue;
+      case 's':
+        switch_song = true;
         redraw = true;
         continue;
       case ' ':
@@ -282,10 +288,10 @@ void draw_menus(struct Menu* playlist_menu, struct Menu* song_menus, bool cursor
   char* play_method_text = NULL;
   switch(play_method) {
     case 0:
-      play_method_text = "random";
+      play_method_text = PLAY_METHOD_INDICATOR_RANDOM_TEXT;
       break;
     case 1:
-      play_method_text = "order";
+      play_method_text = PLAY_METHOD_INDICATOR_ORDER_TEXT;
       break;
   }
 

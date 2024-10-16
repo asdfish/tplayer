@@ -15,6 +15,9 @@ extern const unsigned int frame_rate;
 
 #define MENU_SPLIT_PERCENT 0.5f
 
+#define PLAY_METHOD_INDICATOR_RANDOM_TEXT " random |"
+#define PLAY_METHOD_INDICATOR_ORDER_TEXT  " order  |"
+
 #define PLAY_METHOD_INDICATOR_FOREGROUND TB_WHITE
 #define PLAY_METHOD_INDICATOR_BACKGROUND TB_BLACK
 
