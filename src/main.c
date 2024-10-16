@@ -12,6 +12,8 @@
 int exit_code = -1;
 
 void draw_menus(struct Menu* playlist_menu, struct Menu* song_menus, bool cursor_x);
+void draw_play_method(void);
+void draw_play_percentage(void);
 void resize_menus(struct Menu* playlist_menu, struct Menu* song_menus, unsigned int song_menus_length);
 
 int main(void) {
@@ -158,6 +160,7 @@ int main(void) {
 
     if(redraw) {
       draw_menus(&playlist_menu, song_menus, menu);
+      draw_play_percentage();
       tb_present();
     }
     redraw = false;
@@ -202,7 +205,9 @@ int main(void) {
         continue;
       case 'p':
         global_change_play_method();
-        redraw = true;
+        draw_play_method();
+        if(!redraw)
+          tb_present();
         continue;
       case 's':
         switch_song = true;
@@ -213,11 +218,15 @@ int main(void) {
           menu_select(&playlist_menu);
         else {
           menu_select(&song_menus[playlist_menu.selection]);
-          switch_song = true;
+          restart_song = true;
         }
         redraw = true;
         continue;
     }
+
+    draw_play_percentage();
+    if(!redraw)
+      tb_present();
   }
 
 quit:
@@ -284,18 +293,28 @@ exit:
 void draw_menus(struct Menu* playlist_menu, struct Menu* song_menus, bool cursor_x) {
   menu_draw(playlist_menu, !cursor_x);
   menu_draw(&song_menus[playlist_menu->selection], cursor_x);
+}
 
+void draw_play_method(void) {
   char* play_method_text = NULL;
   switch(play_method) {
     case 0:
-      play_method_text = PLAY_METHOD_INDICATOR_RANDOM_TEXT;
+      play_method_text = PLAY_METHOD_RANDOM_TEXT;
       break;
     case 1:
-      play_method_text = PLAY_METHOD_INDICATOR_ORDER_TEXT;
+      play_method_text = PLAY_METHOD_ORDER_TEXT;
       break;
   }
 
-  tb_print(0, 0, PLAY_METHOD_INDICATOR_FOREGROUND, PLAY_METHOD_INDICATOR_BACKGROUND, play_method_text);
+  tb_print(0, 0, PLAY_METHOD_FOREGROUND, PLAY_METHOD_BACKGROUND, play_method_text);
+}
+
+void draw_play_percentage(void) {
+  float play_percentage = audio_play_percentage();
+  unsigned int play_percentage_width = (unsigned int) ((float) terminal_width * play_percentage);
+
+  for(unsigned int i = 0; i < terminal_width; i ++)
+    tb_set_cell(i, terminal_height - 1, i < play_percentage_width ? '=' : ' ', PLAY_PERCENTAGE_FOREGROUND, PLAY_PERCENTAGE_BACKGROUND);
 }
 
 void resize_menus(struct Menu* playlist_menu, struct Menu* song_menus, unsigned int song_menus_length) {
