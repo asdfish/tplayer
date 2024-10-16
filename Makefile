@@ -1,8 +1,5 @@
-CC ?= cc
+CC := clang
 C_STANDARD := -std=gnu99
-
-CXX ?= c++
-CXX_STANDARD := -std=c++98
 
 INCLUDE_FLAGS := -Iinclude -Ideps/miniaudio -Ideps/termbox2
 LINK_FLAGS := -Lbuild -ldl -lpthread -lm
@@ -73,7 +70,7 @@ build/menu.c.o: include/global.h include/menu.h src/menu.c
 	$(call C_COMPILE,src/menu.c)
 
 tplayer: build ${PPLAYER_OBJECT_FILES}
-	${CXX} ${PPLAYER_OBJECT_FILES} ${LINK_FLAGS} -o tplayer
+	${CC} ${PPLAYER_OBJECT_FILES} ${LINK_FLAGS} -o tplayer
 ifeq (${TARGET}, release)
 	strip tplayer
 endif

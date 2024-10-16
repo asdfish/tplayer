@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define PLAYLISTS_DIRECTORY "/path/to/your/playlists"
+#define PLAYLISTS_DIRECTORY "/home/andre/files/music"
 
 extern const char* menu_selection_prefix;
 
