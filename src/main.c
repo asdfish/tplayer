@@ -131,8 +131,11 @@ int main(void) {
 
   bool switch_song = true;
   bool restart_song = true;
-  bool redraw = true;
   bool menu = false;
+
+  bool redraw_menus = true;
+  bool redraw_play_method = true;
+  bool redraw_play_percentage = true;
 
   srand(time(NULL));
   while(true) {
@@ -154,23 +157,34 @@ int main(void) {
         fprintf(stderr, "Failed to play %s\n", song_paths[playlist_menu.selection][song_menus[playlist_menu.selection].selection]);
         goto audio_uninit;
       }
-      redraw = true;
       restart_song = false;
     }
 
-    if(redraw) {
-      draw_menus(&playlist_menu, song_menus, menu);
-      draw_play_percentage();
+    if(redraw_menus || redraw_play_method || redraw_play_percentage) {
+      if(redraw_menus) {
+        draw_menus(&playlist_menu, song_menus, menu);
+        redraw_menus = false;
+      }
+      if(redraw_play_method) {
+        draw_play_method();
+        redraw_play_method = false;
+      }
+      if(redraw_play_percentage) {
+        draw_play_percentage();
+        redraw_play_percentage = false;
+      }
+
       tb_present();
     }
-    redraw = false;
 
     struct tb_event event;
     tb_peek_event(&event, frame_rate);
 
     if(event.type == TB_EVENT_RESIZE) {
       resize_menus(&playlist_menu, song_menus, playlist_paths_length);
-      redraw = true;
+      redraw_menus = true;
+      redraw_play_method = true;
+      redraw_play_percentage = true;
       continue;
     }
 
@@ -180,13 +194,13 @@ int main(void) {
       case 'h':
         if(menu == 1) {
           menu = 0;
-          redraw = true;
+          redraw_menus = true;
         }
         continue;
       case 'l':
         if(menu == 0) {
           menu = 1;
-          redraw = true;
+          redraw_menus = true;
         }
         continue;
       case 'j':
@@ -194,24 +208,22 @@ int main(void) {
           menu_move_cursor(&playlist_menu, 1);
         else
           menu_move_cursor(&song_menus[playlist_menu.selection], 1);
-        redraw = true;
+        redraw_menus = true;
         continue;
       case 'k':
         if(menu == 0)
           menu_move_cursor(&playlist_menu, -1);
         else
           menu_move_cursor(&song_menus[playlist_menu.selection], -1);
-        redraw = true;
+        redraw_menus = true;
         continue;
       case 'p':
         global_change_play_method();
-        draw_play_method();
-        if(!redraw)
-          tb_present();
+        redraw_play_method = true;
         continue;
       case 's':
         switch_song = true;
-        redraw = true;
+        redraw_menus = true;
         continue;
       case ' ':
         if(menu == 0)
@@ -220,13 +232,11 @@ int main(void) {
           menu_select(&song_menus[playlist_menu.selection]);
           restart_song = true;
         }
-        redraw = true;
+        redraw_menus = true;
         continue;
     }
 
-    draw_play_percentage();
-    if(!redraw)
-      tb_present();
+    redraw_play_percentage = true;
   }
 
 quit:
