@@ -1,4 +1,4 @@
-CC := clang
+CC ?= cc
 C_STANDARD := -std=gnu99
 
 INCLUDE_FLAGS := -Iinclude -Ideps/miniaudio -Ideps/termbox2
