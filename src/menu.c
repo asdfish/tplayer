@@ -78,6 +78,7 @@ draw_white_space:
 
 void menu_free(struct Menu* menu) {
   free(menu->item_lengths);
+  menu->item_lengths = NULL;
 }
 
 void menu_move_cursor(struct Menu* menu, int step) {

@@ -228,34 +228,51 @@ free_song_menus_contents:
   for(unsigned int i = 0; i < song_menus_end; i ++)
     menu_free(&song_menus[i]);
   free(song_menus);
+  song_menus = NULL;
 free_playlist_menu:
   menu_free(&playlist_menu);
 free_song_names_contents:
   for(unsigned int i = 0; i < song_names_end; i ++) {
-    for(unsigned int j = 0; j < song_name_lengths[i]; j ++)
+    for(unsigned int j = 0; j < song_name_lengths[i]; j ++) {
       free((char*) song_names[i][j]);
+      song_names[i][j] = NULL;
+    }
     free(song_names[i]);
+    song_names[i] = NULL;
   }
   free(song_name_lengths);
+  song_name_lengths = NULL;
 free_song_names:
   free(song_names);
+  song_names = NULL;
 free_song_paths_contents:
   for(unsigned int i = 0; i < song_paths_end; i ++) {
-    for(unsigned int j = 0; j < song_path_lengths[i]; j ++)
+    for(unsigned int j = 0; j < song_path_lengths[i]; j ++) {
       free((char*) song_paths[i][j]);
+      song_paths[i][j] = NULL;
+    }
     free(song_paths[i]);
+    song_paths[i] = NULL;
   }
   free(song_path_lengths);
+  song_path_lengths = NULL;
 free_song_paths:
   free(song_paths);
+  song_paths = NULL;
 free_playlist_names:
-  for(unsigned int i = 0; i < playlist_names_length; i ++)
+  for(unsigned int i = 0; i < playlist_names_length; i ++) {
     free((char*) playlist_names[i]);
+    playlist_names[i] = NULL;
+  }
   free(playlist_names);
+  playlist_names = NULL;
 free_playlist_paths:
-  for(unsigned int i = 0; i < playlist_paths_length; i ++)
+  for(unsigned int i = 0; i < playlist_paths_length; i ++) {
     free((char*) playlist_paths[i]);
+    playlist_paths[i] = NULL;
+  }
   free(playlist_paths);
+  playlist_paths = NULL;
 exit:
   if(exit_code != 0)
     fflush(stderr);

@@ -52,10 +52,13 @@
   return 0;                                                                                  \
                                                                                              \
 free_output_paths_contents:                                                                  \
-  for(unsigned int j = 0; j < i; j ++)                                                       \
+  for(unsigned int j = 0; j < i; j ++) {                                                     \
     free((char*) output_paths[j]);                                                           \
+    output_paths[j] = NULL;                                                                  \
+  }                                                                                          \
 free_output_paths:                                                                           \
   free(output_paths);                                                                        \
+  output_paths = NULL;                                                                       \
 failure_exit:                                                                                \
   return -1;                                                                                 \
 }
