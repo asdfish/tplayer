@@ -1,5 +1,5 @@
 CC ?= cc
-C_FLAGS := -O2 -march=native -pipe $\
+C_FLAGS := -Ofast -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -Iinclude -Ideps/miniaudio -Ideps/termbox2
 
