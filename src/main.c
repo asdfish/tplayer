@@ -159,6 +159,7 @@ int main(void) {
         goto audio_uninit;
       }
       restart_song = false;
+      redraw_menus = true;
     }
 
     if(redraw_menus || redraw_play_method || redraw_play_percentage) {

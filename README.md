@@ -1,6 +1,6 @@
 ## Building
 ~~~sh
-git clone https://github.com/asdfish/tplayer --depth=1
+git clone https://github.com/asdfish/tplayer --recursive --depth=1
 cd tplayer
 sudo make install
 ~~~

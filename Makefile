@@ -5,8 +5,7 @@ C_FLAGS := -Ofast -march=native -pipe $\
 
 LD_FLAGS := -Lbuild -ldl -lpthread -lm
 
-DIRECTORIES := build deps
-DEPENDENCIES := deps/miniaudio deps/termbox2
+DIRECTORIES := build
 
 INSTALL_DIRECTORY := /usr/local/bin
 
@@ -14,16 +13,10 @@ OBJECT_FILES := build/miniaudio.o build/termbox2.o $\
 								build/audio.o build/directory.o build/global.o build/main.o build/menu.o
 
 # setup
-all: ${DIRECTORIES} ${DEPENDENCIES} tplayer
+all: ${DIRECTORIES} tplayer
 
 ${DIRECTORIES}:
 	-mkdir ${DIRECTORIES}
-
-deps/miniaudio:
-	git -C deps clone https://github.com/mackron/miniaudio --depth=1
-
-deps/termbox2:
-	git -C deps clone https://github.com/termbox/termbox2 --depth=1
 
 ${OBJECT_FILES}: build/%.o :src/%.c
 	${CC} -c $< ${C_FLAGS} -o $@
@@ -35,7 +28,6 @@ tplayer: build ${OBJECT_FILES}
 # utils
 clean:
 	-rm -rf build
-	-rm -rf deps
 	-rm -f tplayer
 
 install: all ${INSTALL_DIRECTORY}
