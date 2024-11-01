@@ -7,8 +7,9 @@ LD_FLAGS := -Lbuild -ldl -lpthread -lm
 
 INSTALL_DIRECTORY := /usr/local/bin
 
-OBJECT_FILES := build/miniaudio.o build/termbox2.o $\
-								build/audio.o build/directory.o build/global.o build/main.o build/menu.o
+OBJECT_FILES := $(patsubst src/%.c,$\
+									build/%.o,$\
+									$(shell find src -name '*.c' -type f))
 
 # setup
 all: tplayer
@@ -22,14 +23,20 @@ tplayer: ${OBJECT_FILES}
 
 # utils
 clean:
-ifneq (,$(wildcard build/*.o))
-	rm build/*.o
+	$(foreach OBJECT_FILE,$\
+		${OBJECT_FILES},$\
+		$(if $(wildcard ${OBJECT_FILE}),$\
+			$(shell rm ${OBJECT_FILE})))
+ifneq (,$(wildcard tfm))
+	rm tfm
 endif
-	-rm -f tplayer
 
-install: all ${INSTALL_DIRECTORY}
-	-cp -f tplayer ${INSTALL_DIRECTORY}
+install: all ${INSTALL_DIRECTORY} uninstall
+	cp tplayer ${INSTALL_DIRECTORY}
+
 uninstall:
-	-rm -f ${INSTALL_DIRECTORY}/tplayer
+ifneq (,$(wildcard ${INSTALL_DIRECTORY}/tfm))
+	rm ${INSTALL_DIRECTORY}/tfm
+endif
 
 .PHONY: all clean install uninstall
