@@ -3,15 +3,17 @@ C_FLAGS := -std=c99 $\
 					 -O2 -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -I. -Iinclude -Ideps/miniaudio -Ideps/termbox2
+LD_FLAGS := ${C_FLAGS} $\
+						-ldl -lm -lpthread
 
 OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
-									$(shell find src -name '*.c'))
+									$(shell find src -name '*.c' -type f))
 PROCESSED_HEADER_FILES := $(subst .h,$\
 														$(if $(findstring clang,${CC}),$\
 															.h.pch,$\
 															.h.gch),$\
-														$(shell find include -name '*.h'))
+														$(shell find include -name '*.h' -type f))
 
 define COMPILE
 $(info Compiling $(2))
@@ -33,7 +35,7 @@ all: cplayer
 
 cplayer: ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 	$(info Linking $@)
-	@${CC} ${OBJECT_FILES} ${C_FLAGS} -o $@
+	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
 
 build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
