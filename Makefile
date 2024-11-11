@@ -7,7 +7,17 @@ C_FLAGS := -std=c99 $\
 OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
 									$(shell find src -name '*.c'))
+PROCESSED_HEADER_FILES := $(subst .h,$\
+														$(if $(findstring clang,${CC}),$\
+															.h.pch,$\
+															.h.gch),$\
+														$(shell find include -name '*.h'))
 
+define COMPILE
+$(info Compiling $(2))
+@${CC} -c $(1) ${C_FLAGS} -o $(2)
+
+endef
 define REMOVE
 $(if $(wildcard $(1)),$\
 	$(info Removing $(1))
@@ -15,21 +25,28 @@ $(if $(wildcard $(1)),$\
 endef
 define REMOVE_LIST
 $(foreach ITEM,$\
+	$(1),$\
 	$(call REMOVE,${ITEM}))
 endef
 
 all: cplayer
 
-cplayer: ${OBJECT_FILES}
+cplayer: ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 	$(info Linking $@)
-	@${CC} $< ${C_FLAGS} -o $@
+	@${CC} ${OBJECT_FILES} ${C_FLAGS} -o $@
 
 build/%.o: src/%.c
-	$(info Compiling $@)
-	@${CC} -c $< ${C_FLAGS} -o $@
+	$(call COMPILE,$<,$@)
+
+%.gch: %
+	$(call COMPILE,$<,$@)
+
+%.pch: %
+	$(call COMPILE,$<,$@)
 
 clean:
 	$(call REMOVE,cplayer)
 	$(call REMOVE_LIST,${OBJECT_FILES})
+	$(call REMOVE_LIST,${PROCESSED_HEADER_FILES})
 
 .PHONY: all clean
