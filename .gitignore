@@ -1,0 +1,4 @@
+cplayer
+*.o
+*.gch
+*.pch
