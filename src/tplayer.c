@@ -4,6 +4,7 @@
 #include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 
@@ -14,11 +15,11 @@ int tplayer_check_playlists_path(void) {
   // playlists_path
   if(playlists_path == NULL) {
     printf("Variable \"playlists_path\" is set to NULL.\n");
-    return -1;
+    return EXIT_FAILURE;
   }
   if(strlen(playlists_path) == 0) {
     printf("Variable \"playlists_path\" has length 0.\n");
-    return -1;
+    return EXIT_FAILURE;
   }
 
   struct stat st;
@@ -56,10 +57,10 @@ int tplayer_check_playlists_path(void) {
     goto exit_failure;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 
 exit_failure:
-  return -1;
+  return EXIT_FAILURE;
 }
 
 typedef int (*tplayer_check_function) (void);
@@ -69,9 +70,9 @@ static const tplayer_check_function tplayer_check_functions[] = {
 
 static int tplayer_check_config(void) {
   for(unsigned int i = 0; i < ARRAY_LENGTH(tplayer_check_functions); i ++)
-    if(tplayer_check_functions[i]() != 0)
-      return -1;
-  return 0;
+    if(tplayer_check_functions[i]() != EXIT_SUCCESS)
+      return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
 
 // playlist_pointer - string 2d array storing playlists
@@ -79,14 +80,14 @@ static int tplayer_check_config(void) {
 // playlist_lengths - uint array storing lengths of each playlist
 int tplayer_get_playlists(const char**** playlist_pointer, unsigned int* playlist_count, unsigned int** playlist_lengths) {
   if(playlist_pointer == NULL || playlist_count == NULL || playlist_lengths == NULL)
-    return -1;
+    return EXIT_FAILURE;
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 // public
 int tplayer(void) {
-  if(tplayer_check_config() != 0)
-    return -1;
-  return 0;
+  if(tplayer_check_config() != EXIT_SUCCESS)
+    return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }

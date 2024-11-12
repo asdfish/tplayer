@@ -1,4 +1,5 @@
 #include <audio.h>
+#include <stdlib.h>
 #include <miniaudio.h>
 
 ma_engine engine;
@@ -12,8 +13,8 @@ inline void sound_stop(void) {
 
 int audio_init(void) {
   if(ma_engine_init(NULL, &engine) != MA_SUCCESS)
-    return -1;
-  return 0;
+    return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
 
 bool audio_is_playing(void) {
@@ -28,11 +29,11 @@ int audio_play(const char* path) {
     sound_stop();
 
   if(ma_sound_init_from_file(&engine, path, MA_SOUND_FLAG_STREAM, NULL, NULL, &sound) != MA_SUCCESS)
-    return -1;
+    return EXIT_FAILURE;
   ma_sound_start(&sound);
 
   started = true;
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 float audio_play_percentage(void) {

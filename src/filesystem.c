@@ -56,7 +56,7 @@ int get_dirent_names(const char* path, enum DirentCriteria criteria, const char*
 set_output_length:
   *output_length = length;
 exit_success:
-  return 0;
+  return EXIT_SUCCESS;
 
 free_output_contents:
   for(unsigned int j = 0; j < i; j ++) {
@@ -68,18 +68,18 @@ free_output:
   free(*output);
   *output = NULL;
 exit_failure:
-  return -1;
+  return EXIT_FAILURE;
 }
 
 int get_dirent_names_length(const char* path, enum DirentCriteria criteria, unsigned int* output) {
   if(path == NULL || output == NULL)
-    return -1;
+    return EXIT_FAILURE;
   if(strlen(path) == 0)
-    return 0;
+    return EXIT_SUCCESS;
 
   DIR* directory_pointer = NULL;
   if((directory_pointer = opendir(path)) == NULL)
-    return -1;
+    return EXIT_FAILURE;
 
   unsigned int length = 0;
   struct dirent* dirent_pointer = NULL;
@@ -90,5 +90,5 @@ int get_dirent_names_length(const char* path, enum DirentCriteria criteria, unsi
   *output = length;
 
   closedir(directory_pointer);
-  return 0;
+  return EXIT_SUCCESS;
 }
