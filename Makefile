@@ -4,7 +4,8 @@ C_FLAGS := -std=gnu11 $\
 					 -Wall -Wextra -Wpedantic $\
 					 -I. -Iinclude -Ideps/miniaudio -Ideps/tb_menu/include -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
-						-ldl -lm -lpthread
+						-ldl -lm -lpthread $\
+						-Ldeps/tb_menu -ltb_menu
 
 MAKE ?= make
 
