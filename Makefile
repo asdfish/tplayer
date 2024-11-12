@@ -1,6 +1,6 @@
 CC ?= cc
 C_FLAGS := -std=gnu11 $\
-					 -O2 -march=native -pipe $\
+					 -Og -g -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -I. -Iinclude -Ideps/miniaudio -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
@@ -11,11 +11,15 @@ MAKE ?= make
 OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
 									$(shell find src -name '*.c' -type f))
-PROCESSED_HEADER_FILES := $(subst .h,$\
-														$(if $(findstring clang,${CC}),$\
-															.h.pch,$\
-															.h.gch),$\
-														$(shell find -name '*.h' -type f -not -path './deps/*'))
+
+# Uncomment to enable processing header files
+PROCESS_HEADER_FILES := yes
+PROCESSED_HEADER_FILES := $(if ${PROCESS_HEADER_FILES},$\
+														$(subst .h,$\
+															$(if $(findstring clang,${CC}),$\
+																.h.pch,$\
+																.h.gch),$\
+															$(shell find -name '*.h' -type f -not -path './deps/*')))
 
 define COMPILE
 $(info Compiling $(2))
