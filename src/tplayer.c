@@ -11,7 +11,7 @@
 #define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
 
 // private
-int tplayer_check_playlists_path(void) {
+static int tplayer_check_playlists_path(void) {
   // playlists_path
   if(playlists_path == NULL) {
     printf("Variable \"playlists_path\" is set to NULL.\n");
@@ -78,7 +78,7 @@ static int tplayer_check_config(void) {
 // playlist_pointer - string 2d array storing playlists
 // playlist_count   - uint storing count of playlists
 // playlist_lengths - uint array storing lengths of each playlist
-int tplayer_get_playlists(const char**** playlist_pointer, unsigned int* playlist_count, unsigned int** playlist_lengths) {
+static int tplayer_get_playlists(const char**** playlist_pointer, unsigned int* playlist_count, unsigned int** playlist_lengths) {
   if(playlist_pointer == NULL || playlist_count == NULL || playlist_lengths == NULL)
     return EXIT_FAILURE;
 

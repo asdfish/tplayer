@@ -6,11 +6,13 @@ ma_engine engine;
 ma_sound sound;
 bool started = false;
 
-inline void sound_stop(void) {
+// private
+static inline void sound_stop(void) {
   ma_sound_stop(&sound);
   ma_sound_uninit(&sound);
 }
 
+// public
 int audio_init(void) {
   if(ma_engine_init(NULL, &engine) != MA_SUCCESS)
     return EXIT_FAILURE;

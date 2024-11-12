@@ -5,7 +5,7 @@
 #include <string.h>
 
 // private
-inline bool dirent_meets_criteria(struct dirent* dirent_pointer, enum DirentCriteria critera) {
+static inline bool dirent_meets_criteria(struct dirent* dirent_pointer, enum DirentCriteria critera) {
   switch(critera) {
     case DIRENT_IS_DIRECTORY:
       return dirent_pointer->d_type == DT_DIR && strcmp(dirent_pointer->d_name, ".") != 0 && strcmp(dirent_pointer->d_name, "..") != 0;
