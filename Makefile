@@ -6,6 +6,8 @@ C_FLAGS := -std=gnu11 $\
 LD_FLAGS := ${C_FLAGS} $\
 						-ldl -lm -lpthread
 
+MAKE ?= make
+
 OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
 									$(shell find src -name '*.c' -type f))
@@ -33,7 +35,7 @@ endef
 
 all: tplayer
 
-tplayer: ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
+tplayer: deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 	$(info Linking $@)
 	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
 
@@ -45,6 +47,9 @@ build/%.o: src/%.c
 
 %.pch: %
 	$(call COMPILE,$<,$@)
+
+deps/tb_menu/libtb_menu.a:
+	$(MAKE) -C deps/tb_menu
 
 clean:
 	$(call REMOVE,tplayer)
