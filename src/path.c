@@ -5,7 +5,7 @@
 const char* path_file_name(const char* path) {
   unsigned int length = strlen(path);
   if(length == 0 || path[length - 1] == '/')
-    return NULL;
+    return path;
 
   for(int i = length - 1; i >= 0; i --)
     if(path[i] == '/')

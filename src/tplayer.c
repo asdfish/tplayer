@@ -5,6 +5,8 @@
 #include <path.h>
 #include <tplayer.h>
 
+#include <tb_menu.h>
+
 #include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -15,6 +17,50 @@
 #define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
 
 // private
+static inline int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** output) {
+  if(array == NULL || output == NULL)
+    return EXIT_FAILURE;
+
+  *output = (struct TbMenuItem*) malloc(array_length * sizeof(struct TbMenuItem));
+  if(*output == NULL)
+    return EXIT_FAILURE;
+
+  for(unsigned int i = 0; i < array_length; i ++) {
+    (*output)[i].foreground = menu_foreground;
+    (*output)[i].foreground_reversed = menu_foreground_reversed;
+    (*output)[i].contents = path_file_name(array[i]);
+  }
+
+  return EXIT_SUCCESS;
+}
+
+static inline int array_2d_to_menu_items(const char*** array, const unsigned int* array_lengths, unsigned int array_length, struct TbMenuItem*** output) {
+  if(array == NULL || array_lengths == NULL || output == NULL)
+    return EXIT_FAILURE;
+
+  *output = (struct TbMenuItem**) malloc(array_length * sizeof(struct TbMenuItem*));
+  if(*output == NULL)
+    return EXIT_FAILURE;
+
+  unsigned int i = 0;
+  while(i < array_length) {
+    if(array_to_menu_items(array[i], array_lengths[i], *output + i) != EXIT_SUCCESS)
+      goto free_output_contents;
+    i ++;
+  }
+
+  return EXIT_SUCCESS;
+
+free_output_contents:
+  for(unsigned int j = 0; j < i; j ++) {
+    free((*output)[j]);
+    (*output)[j] = NULL;
+  }
+  free(*output);
+  *output = NULL;
+  return EXIT_FAILURE;
+}
+
 static inline int check_playlists_path(void) {
   // playlists_path
   if(playlists_path == NULL) {
@@ -161,8 +207,12 @@ free_playlist_paths_contents:
 
 // public
 int tplayer(void) {
-  if(check_config() != EXIT_SUCCESS)
-    return EXIT_FAILURE;
+  int exit_code = EXIT_SUCCESS;
+
+  if(check_config() != EXIT_SUCCESS) {
+    exit_code = EXIT_FAILURE;
+    goto exit;
+  }
 
   const char** playlist_names = NULL;
   unsigned int playlist_names_length = 0;
@@ -170,10 +220,34 @@ int tplayer(void) {
   const char*** playlists = NULL;
   unsigned int* playlist_lengths = NULL;
 
-  if(get_playlists(&playlist_names, &playlist_names_length, &playlists, &playlist_lengths) != EXIT_SUCCESS)
-    return -1;
+  if(get_playlists(&playlist_names, &playlist_names_length, &playlists, &playlist_lengths) != EXIT_SUCCESS) {
+    exit_code = EXIT_FAILURE;
+    goto exit;
+  }
 
+  struct TbMenuItem* playlist_menu = NULL;
+  if(array_to_menu_items(playlist_names, playlist_names_length, &playlist_menu) != EXIT_SUCCESS) {
+    exit_code = EXIT_FAILURE;
+    goto free_playlists;
+  }
+
+  struct TbMenuItem** playlist_menus = NULL;
+  if(array_2d_to_menu_items(playlists, playlist_lengths, playlist_names_length, &playlist_menus) != EXIT_SUCCESS) {
+    exit_code = EXIT_FAILURE;
+    goto free_playlist_menu;
+  }
+
+  for(unsigned int i = 0; i < playlist_names_length; i ++) {
+    free(playlist_menus[i]);
+    playlist_menus[i] = NULL;
+  }
+  free(playlist_menus);
+  playlist_menus = NULL;
+free_playlist_menu:
+  free(playlist_menu);
+  playlist_menu = NULL;
+free_playlists:
   free_playlists(playlist_names, playlist_names_length, playlists, playlist_lengths);
-
-  return EXIT_SUCCESS;
+exit:
+  return exit_code;
 }
