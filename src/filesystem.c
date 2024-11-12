@@ -49,18 +49,18 @@ int get_dirents_info(const char* path, enum DirentCriteria criteria, enum Dirent
       break;
 
     if(dirent_meets_criteria(dirent_pointer, criteria)) {
-      *(*output + i) = NULL;
+      (*output)[i] = NULL;
 
       switch(info_type) {
         case DIRENT_NAME:
-          *(*output + i) = strdup(dirent_pointer->d_name);
+          (*output)[i] = strdup(dirent_pointer->d_name);
           break;
         case DIRENT_PATH:
-          *(*output + i) = realpath(dirent_pointer->d_name, NULL);
+          (*output)[i] = realpath(dirent_pointer->d_name, NULL);
           break;
       }
 
-      if(*(*output + i) == NULL)
+      if((*output)[i] == NULL)
         goto free_output_contents;
 
       i ++;
@@ -76,8 +76,8 @@ exit_success:
 
 free_output_contents:
   for(unsigned int j = 0; j < i; j ++) {
-    free((char*) *(*output + j));
-    *(*output + j) = NULL;
+    free((char*) (*output)[j]);
+    (*output)[j] = NULL;
   }
   closedir(directory_pointer);
   directory_pointer = NULL;

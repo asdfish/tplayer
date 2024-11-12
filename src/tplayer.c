@@ -13,7 +13,7 @@
 #define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
 
 // private
-static int tplayer_check_playlists_path(void) {
+static inline int tplayer_check_playlists_path(void) {
   // playlists_path
   if(playlists_path == NULL) {
     printf("Variable \"playlists_path\" is set to NULL.\n");
@@ -70,14 +70,14 @@ static const tplayer_check_function tplayer_check_functions[] = {
   tplayer_check_playlists_path,
 };
 
-static int tplayer_check_config(void) {
+static inline int tplayer_check_config(void) {
   for(unsigned int i = 0; i < ARRAY_LENGTH(tplayer_check_functions); i ++)
     if(tplayer_check_functions[i]() != EXIT_SUCCESS)
       return EXIT_FAILURE;
   return EXIT_SUCCESS;
 }
 
-static int tplayer_get_playlists(const char*** playlist_names, unsigned int* playlist_names_length,const char**** playlists, unsigned int** playlist_lengths) {
+static inline int tplayer_get_playlists(const char*** playlist_names, unsigned int* playlist_names_length,const char**** playlists, unsigned int** playlist_lengths) {
   if(playlist_names == NULL || playlist_names_length == NULL ||
       playlists == NULL || playlist_lengths == NULL)
     return EXIT_FAILURE;
@@ -103,7 +103,7 @@ static int tplayer_get_playlists(const char*** playlist_names, unsigned int* pla
 
   unsigned int i = 0;
   while(i < playlist_paths_length) {
-    if(get_dirents_info(*(playlist_paths + i), DIRENT_IS_FILE, DIRENT_PATH, (*playlists + i), (*playlist_lengths + i)) != EXIT_SUCCESS)
+    if(get_dirents_info(playlist_paths[i], DIRENT_IS_FILE, DIRENT_PATH, (*playlists + i), (*playlist_lengths + i)) != EXIT_SUCCESS)
       goto free_playlists_contents;
     i ++;
   }
@@ -114,13 +114,13 @@ static int tplayer_get_playlists(const char*** playlist_names, unsigned int* pla
 
 free_playlists_contents:
   for(unsigned int j = 0; j < i; j ++) {
-    for(unsigned int k = 0; k < *(*playlist_lengths + j); k ++) {
-      free((char*) *(*(*playlists + j) + k));
-      *(*(*playlists + j) + k) = NULL;
+    for(unsigned int k = 0; k < (*playlist_lengths)[j]; k ++) {
+      free((char*) (*playlists)[j][k]);
+      (*playlists)[j][k] = NULL;
     }
 
-    free(*(*playlists + j));
-    *(*playlists + j) = NULL;
+    free((*playlists)[j]);
+    (*playlists)[j] = NULL;
   }
   free(*playlist_lengths);
   *playlist_lengths = NULL;
@@ -129,8 +129,8 @@ free_playlists:
   *playlists = NULL;
 free_playlist_paths_contents:
   for(unsigned int i = 0; i < playlist_paths_length; i ++) {
-    free((char*) *(playlist_paths + i));
-    *(playlist_paths + i) = NULL;
+    free((char*) playlist_paths[i]);
+    playlist_paths[i] = NULL;
   }
   free(playlist_paths);
   playlist_paths = NULL;
@@ -140,6 +140,7 @@ free_playlist_paths_contents:
 static inline void tplayer_free_playlists(const char** playlist_names, unsigned int playlist_names_length, const char*** playlists, unsigned int* playlist_lengths) {
   for(unsigned int i = 0; i < playlist_names_length; i ++) {
     for(unsigned int j = 0; j < playlist_lengths[i]; j ++) {
+      printf("%s\n", playlists[i][j]);
       free((char*) playlists[i][j]);
       playlists[i][j] = NULL;
     }
