@@ -31,9 +31,9 @@ $(foreach ITEM,$\
 	$(call REMOVE,${ITEM}))
 endef
 
-all: cplayer
+all: tplayer
 
-cplayer: ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
+tplayer: ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 	$(info Linking $@)
 	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
 
@@ -47,7 +47,7 @@ build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
 
 clean:
-	$(call REMOVE,cplayer)
+	$(call REMOVE,tplayer)
 	$(call REMOVE_LIST,${OBJECT_FILES})
 	$(call REMOVE_LIST,${PROCESSED_HEADER_FILES})
 
