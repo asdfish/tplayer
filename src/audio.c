@@ -5,7 +5,7 @@ ma_engine engine;
 ma_sound sound;
 bool started = false;
 
-void sound_stop(void) {
+inline void sound_stop(void) {
   ma_sound_stop(&sound);
   ma_sound_uninit(&sound);
 }
@@ -31,22 +31,24 @@ int audio_play(const char* path) {
     return -1;
   ma_sound_start(&sound);
 
-  if(!started)
-    started = true;
+  started = true;
   return 0;
 }
 
 float audio_play_percentage(void) {
   if(!audio_is_playing())
-    return 0.0f;
+    return 0.f;
 
-  float length = 0.0f;
+  float length = 0.f;
   if(ma_sound_get_length_in_seconds(&sound, &length) != MA_SUCCESS)
-    return 0.0f;
+    return 0.f;
 
   float cursor = 0.0f;
   if(ma_sound_get_cursor_in_seconds(&sound, &cursor) != MA_SUCCESS)
-    return 0.0f;
+    return 0.f;
+
+  if(length == 0.f || cursor == 0.f)
+    return 0.f;
 
   return cursor / length;
 }
