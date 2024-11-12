@@ -1,0 +1,14 @@
+#include <path.h>
+#include <stddef.h>
+#include <string.h>
+
+const char* path_file_name(const char* path) {
+  unsigned int length = strlen(path);
+  if(length == 0 || path[length - 1] == '/')
+    return NULL;
+
+  for(int i = length - 1; i >= 0; i --)
+    if(path[i] == '/')
+      return path + i + 1;
+  return path;
+}

@@ -2,6 +2,7 @@
 #define CONFIG_INCLUDE_PLAYLISTS_PATH
 #include <config.h>
 #include <filesystem.h>
+#include <path.h>
 #include <tplayer.h>
 
 #include <errno.h>
@@ -81,7 +82,6 @@ static inline int check_config(void) {
 static inline void free_playlists(const char** playlist_names, unsigned int playlist_names_length, const char*** playlists, unsigned int* playlist_lengths) {
   for(unsigned int i = 0; i < playlist_names_length; i ++) {
     for(unsigned int j = 0; j < playlist_lengths[i]; j ++) {
-      printf("%s\n", playlists[i][j]);
       free((char*) playlists[i][j]);
       playlists[i][j] = NULL;
     }
