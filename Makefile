@@ -13,7 +13,7 @@ PROCESSED_HEADER_FILES := $(subst .h,$\
 														$(if $(findstring clang,${CC}),$\
 															.h.pch,$\
 															.h.gch),$\
-														$(shell find include -name '*.h' -type f))
+														$(shell find -name '*.h' -type f -not -path './deps/*'))
 
 define COMPILE
 $(info Compiling $(2))
