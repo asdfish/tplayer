@@ -1,7 +1,9 @@
 [submodule "deps/miniaudio"]
 	path = deps/miniaudio
 	url = https://github.com/mackron/miniaudio
-
 [submodule "deps/termbox2"]
 	path = deps/termbox2
 	url = https://github.com/termbox/termbox2
+[submodule "deps/tb_menu"]
+	path = deps/tb_menu
+	url = https://github.com/asdfish/tb_menu
