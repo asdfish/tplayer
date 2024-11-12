@@ -1,5 +1,5 @@
 CC ?= cc
-C_FLAGS := -std=c99 $\
+C_FLAGS := -std=gnu11 $\
 					 -O2 -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -I. -Iinclude -Ideps/miniaudio -Ideps/termbox2
