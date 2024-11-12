@@ -1,3 +1,4 @@
+#define CONFIG_INCLUDE_MENU_CONFIGS
 #define CONFIG_INCLUDE_PLAYLISTS_PATH
 #include <config.h>
 #include <filesystem.h>
@@ -13,7 +14,7 @@
 #define ARRAY_LENGTH(array) (sizeof(array) / sizeof(array[0]))
 
 // private
-static inline int tplayer_check_playlists_path(void) {
+static inline int check_playlists_path(void) {
   // playlists_path
   if(playlists_path == NULL) {
     printf("Variable \"playlists_path\" is set to NULL.\n");
@@ -65,19 +66,40 @@ exit_failure:
   return EXIT_FAILURE;
 }
 
-typedef int (*tplayer_check_function) (void);
-static const tplayer_check_function tplayer_check_functions[] = {
-  tplayer_check_playlists_path,
+typedef int (*check_function) (void);
+static const check_function check_functions[] = {
+  check_playlists_path,
 };
 
-static inline int tplayer_check_config(void) {
-  for(unsigned int i = 0; i < ARRAY_LENGTH(tplayer_check_functions); i ++)
-    if(tplayer_check_functions[i]() != EXIT_SUCCESS)
+static inline int check_config(void) {
+  for(unsigned int i = 0; i < ARRAY_LENGTH(check_functions); i ++)
+    if(check_functions[i]() != EXIT_SUCCESS)
       return EXIT_FAILURE;
   return EXIT_SUCCESS;
 }
 
-static inline int tplayer_get_playlists(const char*** playlist_names, unsigned int* playlist_names_length,const char**** playlists, unsigned int** playlist_lengths) {
+static inline void free_playlists(const char** playlist_names, unsigned int playlist_names_length, const char*** playlists, unsigned int* playlist_lengths) {
+  for(unsigned int i = 0; i < playlist_names_length; i ++) {
+    for(unsigned int j = 0; j < playlist_lengths[i]; j ++) {
+      printf("%s\n", playlists[i][j]);
+      free((char*) playlists[i][j]);
+      playlists[i][j] = NULL;
+    }
+    free(playlists[i]);
+    playlists[i] = NULL;
+
+    free((char*) playlist_names[i]);
+    playlist_names[i] = NULL;
+  }
+  free(playlist_lengths);
+  playlist_lengths = NULL;
+  free(playlist_names);
+  playlist_names = NULL;
+  free(playlists);
+  playlists = NULL;
+}
+
+static inline int get_playlists(const char*** playlist_names, unsigned int* playlist_names_length,const char**** playlists, unsigned int** playlist_lengths) {
   if(playlist_names == NULL || playlist_names_length == NULL ||
       playlists == NULL || playlist_lengths == NULL)
     return EXIT_FAILURE;
@@ -137,30 +159,9 @@ free_playlist_paths_contents:
   return EXIT_FAILURE;
 }
 
-static inline void tplayer_free_playlists(const char** playlist_names, unsigned int playlist_names_length, const char*** playlists, unsigned int* playlist_lengths) {
-  for(unsigned int i = 0; i < playlist_names_length; i ++) {
-    for(unsigned int j = 0; j < playlist_lengths[i]; j ++) {
-      printf("%s\n", playlists[i][j]);
-      free((char*) playlists[i][j]);
-      playlists[i][j] = NULL;
-    }
-    free(playlists[i]);
-    playlists[i] = NULL;
-
-    free((char*) playlist_names[i]);
-    playlist_names[i] = NULL;
-  }
-  free(playlist_lengths);
-  playlist_lengths = NULL;
-  free(playlist_names);
-  playlist_names = NULL;
-  free(playlists);
-  playlists = NULL;
-}
-
 // public
 int tplayer(void) {
-  if(tplayer_check_config() != EXIT_SUCCESS)
+  if(check_config() != EXIT_SUCCESS)
     return EXIT_FAILURE;
 
   const char** playlist_names = NULL;
@@ -169,10 +170,10 @@ int tplayer(void) {
   const char*** playlists = NULL;
   unsigned int* playlist_lengths = NULL;
 
-  if(tplayer_get_playlists(&playlist_names, &playlist_names_length, &playlists, &playlist_lengths) != EXIT_SUCCESS)
+  if(get_playlists(&playlist_names, &playlist_names_length, &playlists, &playlist_lengths) != EXIT_SUCCESS)
     return -1;
 
-  tplayer_free_playlists(playlist_names, playlist_names_length, playlists, playlist_lengths);
+  free_playlists(playlist_names, playlist_names_length, playlists, playlist_lengths);
 
   return EXIT_SUCCESS;
 }

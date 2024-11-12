@@ -2,7 +2,7 @@ CC ?= cc
 C_FLAGS := -std=gnu11 $\
 					 -Og -g -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
-					 -I. -Iinclude -Ideps/miniaudio -Ideps/termbox2
+					 -I. -Iinclude -Ideps/miniaudio -Ideps/tb_menu/include -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
 						-ldl -lm -lpthread
 
