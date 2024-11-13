@@ -68,7 +68,7 @@ static int array_to_menu_items(const char** array, unsigned int array_length, st
   for(unsigned int i = 0; i < array_length; i ++) {
     (*items)[i].foreground = menu_foreground;
     (*items)[i].foreground_reversed = menu_foreground_reversed;
-    (*items)[i].contents = path_file_name(array[i]);
+    (*items)[i].contents = path_get_file_name(array[i]);
   }
 
   return EXIT_SUCCESS;

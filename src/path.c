@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <string.h>
 
-const char* path_file_name(const char* path) {
+const char* path_get_file_name(const char* path) {
   unsigned int length = strlen(path);
   if(length == 0 || path[length - 1] == '/')
     return path;
