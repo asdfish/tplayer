@@ -2,6 +2,7 @@
 #define CONFIG_INCLUDE_PLAYLISTS_PATH
 #include <config.h>
 #include <filesystem.h>
+#include <path.h>
 
 #include <tb_menu.h>
 
@@ -20,6 +21,11 @@ static void free_playlists_contents_until(unsigned int until);
 
 static void free_playlists_lengths(void);
 
+static void free_playlist_menu(void);
+static void free_playlists_menus(void);
+static void free_playlists_menus_contents(void);
+static void free_playlists_menus_contents_until(unsigned int until);
+
 static void free_playlist_menu_items(void);
 static void free_playlists_menus_items(void);
 static void free_playlists_menus_items_contents(void);
@@ -27,9 +33,11 @@ static void free_playlists_menus_items_contents_until(unsigned int until);
 
 static void free_all(void);
 static void free_all_playlists(void);
+static void free_all_menus(void);
 static void free_all_menu_items(void);
 
 static int init(void);
+static int init_menus(void);
 static int init_menu_items(void);
 static int init_playlists(void);
 
@@ -60,7 +68,7 @@ static int array_to_menu_items(const char** array, unsigned int array_length, st
   for(unsigned int i = 0; i < array_length; i ++) {
     (*items)[i].foreground = menu_foreground;
     (*items)[i].foreground_reversed = menu_foreground_reversed;
-    (*items)[i].contents = array[i];
+    (*items)[i].contents = path_file_name(array[i]);
   }
 
   return EXIT_SUCCESS;
@@ -100,6 +108,21 @@ static void free_playlists_lengths(void) {
   playlists_lengths = NULL;
 }
 
+static void free_playlist_menu(void) {
+  tb_menu_uninit(&playlist_menu);
+}
+static void free_playlists_menus(void) {
+  free(playlists_menus);
+  playlists_menus = NULL;
+}
+static void free_playlists_menus_contents(void) {
+  free_playlists_menus_contents_until(playlist_names_length);
+}
+static void free_playlists_menus_contents_until(unsigned int until) {
+  for(unsigned int i = 0; i < until; i ++)
+    tb_menu_uninit(&playlists_menus[i]);
+}
+
 static void free_playlist_menu_items(void) {
   free(playlist_menu_items);
   playlist_menu_items = NULL;
@@ -121,6 +144,7 @@ static void free_playlists_menus_items_contents_until(unsigned int until) {
 static void free_all(void) {
   free_all_playlists();
   free_all_menu_items();
+  free_all_menus();
 }
 static void free_all_playlists(void) {
   free_playlists_contents();
@@ -130,6 +154,11 @@ static void free_all_playlists(void) {
   free_playlist_names();
 
   free_playlists_lengths();
+}
+static void free_all_menus(void) {
+  free_playlist_menu();
+  free_playlists_menus_contents();
+  free_playlists_menus();
 }
 static void free_all_menu_items(void) {
   free_playlists_menus_items_contents();
@@ -143,10 +172,39 @@ static int init(void) {
     return EXIT_FAILURE;
   if(init_menu_items() != EXIT_SUCCESS)
     goto free_all_playlists;
+  if(init_menus() != EXIT_SUCCESS)
+    goto free_all_menu_items;
   return EXIT_SUCCESS;
 
+free_all_menu_items:
+  free_all_menu_items();
 free_all_playlists:
   free_all_playlists();
+  return EXIT_FAILURE;
+}
+static int init_menus(void) {
+  tb_menu_init(&playlist_menu);
+  if(tb_menu_set_items(&playlist_menu, playlist_menu_items, playlist_names_length) != TBM_SUCCESS)
+    return EXIT_FAILURE;
+
+  playlists_menus = (struct TbMenu*) malloc(playlist_names_length * sizeof(struct TbMenu));
+  if(playlists_menus == NULL)
+    goto free_playlist_menu;
+
+  unsigned int i = 0;
+  while(i < playlist_names_length) {
+    if(tb_menu_set_items(playlists_menus + i, playlists_menus_items[i], playlists_lengths[i]) != TBM_SUCCESS)
+      goto free_playlists_menus_contents_until;
+    i ++;
+  }
+
+  return EXIT_SUCCESS;
+
+free_playlists_menus_contents_until:
+  free_playlists_menus_contents_until(i);
+  free_playlists_menus();
+free_playlist_menu:
+  free_playlist_menu();
   return EXIT_FAILURE;
 }
 static int init_menu_items(void) {
