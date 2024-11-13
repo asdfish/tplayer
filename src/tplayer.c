@@ -9,7 +9,6 @@
 static void free_playlist_names(void);
 static void free_playlist_names_contents(void);
 
-static void free_playlist_contents(unsigned int index);
 static void free_playlists(void);
 static void free_playlists_contents(void);
 static void free_playlists_contents_until(unsigned int until);
@@ -37,14 +36,6 @@ static void free_playlist_names_contents(void) {
   }
 }
 
-static void free_playlist_contents(unsigned int index) {
-  for(unsigned int j = 0; j < playlists_lengths[index]; j ++) {
-    free((char*) playlists[index][j]);
-    playlists[index][j] = NULL;
-  }
-  free(playlists[index]);
-  playlists[index] = NULL;
-}
 static void free_playlists(void) {
   free(playlists);
   playlists = NULL;
@@ -53,10 +44,14 @@ static void free_playlists_contents(void) {
   free_playlists_contents_until(playlist_names_length);
 }
 static void free_playlists_contents_until(unsigned int until) {
-  for(unsigned int i = 0; i < until; i ++)
-    free_playlist_contents(i);
-  free(playlists);
-  playlists = NULL;
+  for(unsigned int i = 0; i < until; i ++) {
+    for(unsigned int j = 0; j < playlists_lengths[i]; j ++) {
+      free((char*) playlists[i][j]);
+      playlists[i][j] = NULL;
+    }
+    free(playlists[i]);
+    playlists[i] = NULL;
+  }
 }
 
 static void free_playlists_lengths(void) {
