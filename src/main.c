@@ -1,19 +1,23 @@
 #include <init.h>
 #include <free.h>
+#include <main.h>
 
 #include <tb_menu.h>
 
-const char** tplayer_playlist_names = NULL;
-unsigned int tplayer_playlist_names_length = 0;
+#include <stddef.h>
+#include <stdlib.h>
 
-const char*** tplayer_playlists = NULL;
-unsigned int* tplayer_playlists_lengths = NULL;
+const char** playlist_names = NULL;
+unsigned int playlist_names_length = 0;
 
-struct TbMenu tplayer_playlist_menu;
-struct TbMenu* tplayer_playlists_menus = NULL;
+const char*** playlists = NULL;
+unsigned int* playlists_lengths = NULL;
 
-struct TbMenuItem* tplayer_playlist_menu_items = NULL;
-struct TbMenuItem** tplayer_playlists_menus_items = NULL;
+struct TbMenu playlist_menu;
+struct TbMenu* playlists_menus = NULL;
+
+struct TbMenuItem* playlist_menu_items = NULL;
+struct TbMenuItem** playlists_menus_items = NULL;
 
 int main(void) {
   if(init() != EXIT_SUCCESS)
