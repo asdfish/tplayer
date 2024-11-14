@@ -2,7 +2,21 @@
 #include <bind_functions.h>
 #include <macros.h>
 #include <main.h>
-#include <utils.h>
+
+static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length) {
+  if(selected_menu == 0) {
+    if(menu != NULL)
+      *menu = &playlist_menu;
+    if(menu_length != NULL)
+      *menu_length = playlist_names_length;
+    return;
+  }
+
+  if(menu != NULL)
+    *menu = playlists_menus + selected_playlist;
+  if(menu_length != NULL)
+    *menu_length = playlists_lengths[selected_playlist];
+}
 
 int bind_function_menu_move_cursor_bottom(const struct Argument* argument) {
   struct TbMenu* focused_menu = NULL;
