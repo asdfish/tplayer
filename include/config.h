@@ -15,7 +15,10 @@ extern const float menu_split;
 extern const char* playlists_path;
 
 extern const char* strokes_allowed_chars;
-extern const struct Stroke stroke_bindings[];
+extern const struct StrokeBinding stroke_bindings[];
 extern const unsigned int stroke_bindings_length;
+
+extern const struct KeyBinding key_bindings[];
+extern const unsigned int key_bindings_length;
 
 #endif

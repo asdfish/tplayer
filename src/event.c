@@ -80,6 +80,10 @@ int event_handle(struct tb_event* event) {
       return EXIT_FAILURE;
   }
 
+  for(unsigned int i = 0; i < key_bindings_length; i ++)
+    if(event->key == key_bindings[i].key)
+      key_bindings[i].function(&key_bindings[i].argument);
+
   return EXIT_SUCCESS;
 }
 unsigned int stroke_bindings_max_length(void) {
