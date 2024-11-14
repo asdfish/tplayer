@@ -1,5 +1,4 @@
 #include <path.h>
-#include <stddef.h>
 #include <string.h>
 
 const char* path_get_file_name(const char* path) {
