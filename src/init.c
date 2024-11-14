@@ -3,7 +3,7 @@
 #include <filesystem.h>
 #include <free.h>
 #include <main.h>
-#include <stroke.h>
+#include <utils.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
 static void init_menu(struct TbMenu* menu);
