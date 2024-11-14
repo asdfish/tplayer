@@ -7,6 +7,7 @@
 #include <main.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
+static void init_menu(struct TbMenu* menu);
 static const char* path_file_name(const char* path);
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items) {
@@ -26,6 +27,10 @@ static int array_to_menu_items(const char** array, unsigned int array_length, st
   }
 
   return EXIT_SUCCESS;
+}
+static void init_menu(struct TbMenu* menu) {
+  menu->background = menu_background;
+  menu->background_reversed = menu_background_reversed;
 }
 static const char* path_file_name(const char* path) {
   unsigned int length = strlen(path);
@@ -57,6 +62,7 @@ int init_menus(void) {
   tb_menu_init(&playlist_menu);
   if(tb_menu_set_items(&playlist_menu, playlist_menu_items, playlist_names_length) != TBM_SUCCESS)
     return EXIT_FAILURE;
+  init_menu(&playlist_menu);
 
   playlists_menus = (struct TbMenu*) malloc(playlist_names_length * sizeof(struct TbMenu));
   if(playlists_menus == NULL)
@@ -67,6 +73,7 @@ int init_menus(void) {
     tb_menu_init(playlists_menus + i);
     if(tb_menu_set_items(playlists_menus + i, playlists_menus_items[i], playlists_lengths[i]) != TBM_SUCCESS)
       goto free_playlists_menus_contents_until;
+    init_menu(playlists_menus + i);
     i ++;
   }
 

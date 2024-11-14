@@ -11,7 +11,7 @@ static const float menu_split = 0.5f;
 #endif
 
 #ifdef CONFIG_INCLUDE_PLAYLISTS_PATH
-static const char* playlists_path = "/home/andre/files/music";
+static const char* playlists_path = "/path/to/your/playlists";
 #endif
 
 #endif
