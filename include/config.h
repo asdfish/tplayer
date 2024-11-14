@@ -10,6 +10,8 @@ extern const uintattr_t menu_background;
 extern const uintattr_t menu_background_reversed;
 extern const uintattr_t menu_foreground;
 extern const uintattr_t menu_foreground_reversed;
+extern const uintattr_t menu_selected_foreground;
+extern const uintattr_t menu_selected_foreground_reversed;
 extern const float menu_split;
 
 extern const char* playlists_path;

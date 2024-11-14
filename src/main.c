@@ -23,7 +23,8 @@ struct TbMenuItem* playlist_menu_items = NULL;
 struct TbMenuItem** playlists_menus_items = NULL;
 
 unsigned int selected_menu = 0;
-unsigned int selected_playlist = 0;
+unsigned int selected_playlist = 1;
+unsigned int* selected_songs = NULL;
 
 bool running = true;
 

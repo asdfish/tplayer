@@ -4,8 +4,17 @@
 
 #include <termbox2.h>
 
-bool redraw_menus = true;
+void change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length) {
+  affected_items[*old_selection].foreground = menu_foreground;
+  affected_items[*old_selection].foreground_reversed = menu_foreground_reversed;
 
+  affected_items[new_selection].foreground = menu_selected_foreground;
+  affected_items[new_selection].foreground_reversed = menu_selected_foreground_reversed;
+
+  *old_selection = new_selection;
+}
+
+bool redraw_menus = true;
 int display_draw(void) {
   bool redrawn = false;
 

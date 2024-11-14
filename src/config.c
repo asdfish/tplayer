@@ -5,6 +5,8 @@ const uintattr_t menu_background = TB_BLACK;
 const uintattr_t menu_background_reversed = TB_WHITE;
 const uintattr_t menu_foreground = TB_WHITE;
 const uintattr_t menu_foreground_reversed = TB_BLACK;
+const uintattr_t menu_selected_foreground = TB_RED;
+const uintattr_t menu_selected_foreground_reversed = TB_RED;
 const float menu_split = 0.5f;
 
 const char* playlists_path = "/home/andre/files/music";
@@ -17,6 +19,7 @@ const struct StrokeBinding stroke_bindings[] = {
   { "l", bind_function_menu_move_cursor_x, { .i = 1 } },
   { "G", bind_function_menu_move_cursor_bottom },
   { "gg", bind_function_menu_move_cursor_top },
+
   { "q", bind_function_quit },
 };
 const unsigned int stroke_bindings_length = ARRAY_LENGTH(stroke_bindings);

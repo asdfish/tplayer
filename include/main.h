@@ -19,6 +19,7 @@ extern struct TbMenuItem** playlists_menus_items;
 
 extern unsigned int selected_menu;
 extern unsigned int selected_playlist;
+extern unsigned int* selected_songs;
 
 extern bool running;
 

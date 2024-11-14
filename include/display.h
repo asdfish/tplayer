@@ -1,9 +1,12 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include <tb_menu.h>
 #include <stdbool.h>
 
 extern bool redraw_menus;
+
+extern void change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length);
 
 extern int display_draw(void);
 extern int display_resize(void);

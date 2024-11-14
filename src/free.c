@@ -77,6 +77,7 @@
   free_all_menu_items();
   free_all_menus();
   free_all_strokes();
+  free_all_selections();
 }
  void free_all_playlists(void) {
   free_playlists_contents();
@@ -100,4 +101,8 @@
 }
 void free_all_strokes(void) {
   o_string_uninit(&strokes);
+}
+void free_all_selections(void) {
+  free(selected_songs);
+  selected_songs = NULL;
 }

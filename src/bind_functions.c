@@ -3,6 +3,14 @@
 #include <macros.h>
 #include <main.h>
 
+static void change_selected_playlist(unsigned int new_playlist) {
+  if(selected_playlist == new_playlist)
+    return;
+
+  change_menu_selection(&selected_playlist, new_playlist, playlist_menu_items, playlist_names_length);
+  redraw_menus = true;
+}
+
 static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length) {
   if(selected_menu == 0) {
     if(menu != NULL)
@@ -58,10 +66,7 @@ int bind_function_menu_move_cursor_y(const struct Argument* argument) {
 }
 int bind_function_menu_select(const struct Argument* argument) {
   if(selected_menu == 0) {
-    if(selected_playlist != playlist_menu.cursor) {
-      selected_playlist = playlist_menu.cursor;
-      redraw_menus = true;
-    }
+    change_selected_playlist(playlist_menu.cursor);
 
     return EXIT_SUCCESS;
   }
