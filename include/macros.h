@@ -6,4 +6,9 @@
 #define MIN(x, y) (x < y ? x : y)
 #define MAX(x, y) (x > y ? x : y)
 
+#define CHAR_TO_STRING(character, string_name) \
+  char string_name[2]; \
+  string_name[0] = character; \
+  string_name[1] = '\0';
+
 #endif
