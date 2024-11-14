@@ -76,6 +76,7 @@
   free_all_playlists();
   free_all_menu_items();
   free_all_menus();
+  free_all_strokes();
 }
  void free_all_playlists(void) {
   free_playlists_contents();

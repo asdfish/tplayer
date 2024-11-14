@@ -35,10 +35,17 @@ $(if $(wildcard $(1)),$\
 	$(info Removing $(1))
 	$(shell rm $(1)))
 endef
+define REMOVE_DEPENDENCY
+$(if $(wildcard $(1)),$\
+	$(MAKE) -C $(dir $(1)) clean)
+
+endef
 define REMOVE_LIST
 $(foreach ITEM,$\
 	$(1),$\
-	$(call REMOVE,${ITEM}))
+	$(if $(findstring .a,${ITEM}),$\
+		$(call REMOVE_DEPENDENCY,${ITEM}),$\
+		$(call REMOVE,${ITEM})))
 endef
 
 all: tplayer

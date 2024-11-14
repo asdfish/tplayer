@@ -1,6 +1,7 @@
 #include <display.h>
 #include <init.h>
 #include <free.h>
+#include <event.h>
 #include <main.h>
 
 #include <orchestra.h>
@@ -44,8 +45,8 @@ int main(void) {
     struct tb_event event;
     tb_poll_event(&event);
     
-    if(event.ch == 'q')
-      break;
+    if(event_handle(&event) != EXIT_SUCCESS)
+      goto tb_shutdown;
   }
 
 tb_shutdown:
