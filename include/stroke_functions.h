@@ -3,6 +3,6 @@
 
 #include <structs.h>
 
-extern int stroke_function_quit(struct Argument* argument);
+extern int stroke_function_quit(const struct Argument* argument);
 
 #endif

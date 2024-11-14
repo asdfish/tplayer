@@ -7,9 +7,8 @@ struct Argument {
 
 struct Stroke {
   const char* string;
-  int (*function) (struct Argument*);
+  int (*function) (const struct Argument*);
   struct Argument argument;
 };
-
 
 #endif

@@ -6,6 +6,6 @@
 
 extern int stroke_add_char(char new_char);
 extern unsigned int stroke_bindings_max_length(void);
-extern int stroke_execute(void);
+extern int stroke_process(void);
 
 #endif

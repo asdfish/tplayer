@@ -13,9 +13,13 @@ int event_handle(struct tb_event* event) {
     if(display_resize() != EXIT_SUCCESS)
       return EXIT_FAILURE;
 
-  if(event->ch < UCHAR_MAX)
+  if(event->ch < CHAR_MAX) {
     if(stroke_add_char((char) event->ch) != EXIT_SUCCESS)
       return EXIT_FAILURE;
+
+    if(stroke_process() != EXIT_SUCCESS)
+      return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

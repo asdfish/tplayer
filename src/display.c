@@ -1,20 +1,15 @@
-#define CONFIG_INCLUDE_MENU_CONFIGS
 #include <config.h>
 #include <display.h>
 #include <main.h>
 
 #include <termbox2.h>
 
+#include <stroke.h>
 int display_draw(void) {
   struct TbMenu* menus[2] = {
     &playlist_menu,
     playlists_menus + selected_playlist
   };
-
-  tb_printf(69, 0, 0, 0, "x %u", playlists_menus[0].x);
-  tb_printf(69, 1, 0, 0, "y %u", playlists_menus[0].y);
-  tb_printf(69, 2, 0, 0, "x %u", playlists_menus[0].width);
-  tb_printf(69, 3, 0, 0, "y %u", playlists_menus[0].height);
 
   for(unsigned int i = 0; i < 2; i ++) {
     if(i == selected_menu)

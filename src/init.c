@@ -1,5 +1,3 @@
-#define CONFIG_INCLUDE_MENU_CONFIGS
-#define CONFIG_INCLUDE_PLAYLISTS_PATH
 #include <config.h>
 #include <init.h>
 #include <filesystem.h>
