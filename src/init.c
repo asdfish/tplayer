@@ -6,8 +6,6 @@
 #include <free.h>
 #include <main.h>
 
-#include <tb_menu.h>
-
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
 static const char* path_file_name(const char* path);
 

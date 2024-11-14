@@ -1,6 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include <tb_menu.h>
+
 extern const char** playlist_names;
 extern unsigned int playlist_names_length;
 
