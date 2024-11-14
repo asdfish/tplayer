@@ -1,8 +1,7 @@
+#include <audio.h>
 #include <free.h>
 #include <main.h>
-
 #include <stdlib.h>
-
 #include <tb_menu.h>
 
  void free_playlist_names(void) {
@@ -78,6 +77,10 @@
   free_all_menus();
   free_all_strokes();
   free_all_selections();
+  free_all_audio();
+}
+extern void free_all_audio(void) {
+  audio_uninit();
 }
  void free_all_playlists(void) {
   free_playlists_contents();

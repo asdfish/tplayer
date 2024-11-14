@@ -3,12 +3,18 @@
 #include <macros.h>
 #include <main.h>
 
-static void change_selected_playlist(unsigned int new_playlist) {
-  if(selected_playlist == new_playlist)
-    return;
+static int change_selected_song(unsigned int new_song);
+static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length, unsigned int* selection);
 
-  change_menu_selection(&selected_playlist, new_playlist, playlist_menu_items, playlist_names_length);
+static int change_selected_song(unsigned int new_song) {
+  if(new_song == selected_songs[selected_playlist])
+    goto change_song;
+
+  change_menu_selection(&selected_songs[selected_playlist], new_song, playlists_menus_items[selected_playlist], playlists_lengths[selected_playlist]);
+
   redraw_menus = true;
+change_song:
+  return EXIT_SUCCESS;
 }
 
 static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length, unsigned int* selection) {
@@ -84,8 +90,9 @@ int bind_function_menu_select(const struct Argument* argument) {
     return EXIT_SUCCESS;
   }
 
-  return EXIT_SUCCESS;
+  return change_selected_song(playlists_menus[selected_playlist].cursor);
 }
+
 int bind_function_quit(const struct Argument* argument) {
   running = false;
   return EXIT_SUCCESS;

@@ -7,6 +7,7 @@
 extern bool redraw_menus;
 
 extern void change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length);
+extern void change_selected_playlist(unsigned int new_playlist);
 
 extern int display_draw(void);
 extern int display_resize(void);

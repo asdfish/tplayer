@@ -1,3 +1,4 @@
+#include <audio.h>
 #include <config.h>
 #include <display.h>
 #include <init.h>
@@ -7,6 +8,7 @@
 #include <main.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
+static int init_audio(void);
 static void init_menu(struct TbMenu* menu);
 static int init_menus(void);
 static int init_menu_items(void);
@@ -49,6 +51,17 @@ static const char* path_file_name(const char* path) {
   return path;
 }
 
+static int init_audio(void) {
+  if(audio_init() != EXIT_SUCCESS)
+    return EXIT_FAILURE;
+  /*if(audio_play(playlists[selected_playlist][selected_songs[selected_playlist]]) != EXIT_SUCCESS)*/
+  /*  goto audio_uninit;*/
+  return EXIT_SUCCESS;
+
+audio_uninit:
+  audio_uninit();
+  return EXIT_FAILURE;
+}
 static int init_menus(void) {
   tb_menu_init(&playlist_menu);
   if(tb_menu_set_items(&playlist_menu, playlist_menu_items, playlist_names_length) != TBM_SUCCESS)
@@ -140,7 +153,7 @@ static int init_selections(void) {
   if(selected_songs == NULL)
     return EXIT_FAILURE;
 
-  change_menu_selection(&selected_playlist, 0, playlist_menu_items, playlist_names_length);
+  change_selected_playlist(0);
 
   for(unsigned int i = 0; i < playlist_names_length; i ++) {
     selected_songs[i] = 1;
@@ -172,8 +185,12 @@ int init(void) {
     goto free_all_menus;
   if(init_selections() != EXIT_SUCCESS)
     goto free_all_strokes;
+  if(init_audio() != EXIT_SUCCESS)
+    goto free_all_selections;
   return EXIT_SUCCESS;
 
+free_all_selections:
+  free_all_selections();
 free_all_strokes:
   free_all_strokes();
 free_all_menus:

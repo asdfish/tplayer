@@ -29,3 +29,6 @@ const struct KeyBinding key_bindings[] = {
   { TB_KEY_ENTER, bind_function_menu_select },
 };
 const unsigned int key_bindings_length = ARRAY_LENGTH(key_bindings);
+
+// 24 fps
+const unsigned int frame_rate = 1000 / 24;

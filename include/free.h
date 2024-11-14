@@ -21,6 +21,7 @@ extern void free_playlists_menus_items_contents(void);
 extern void free_playlists_menus_items_contents_until(unsigned int until);
 
 extern void free_all(void);
+extern void free_all_audio(void);
 extern void free_all_playlists(void);
 extern void free_all_menus(void);
 extern void free_all_menu_items(void);

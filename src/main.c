@@ -1,3 +1,4 @@
+#include <config.h>
 #include <display.h>
 #include <init.h>
 #include <free.h>
@@ -44,7 +45,7 @@ int main(void) {
       goto tb_shutdown;
 
     struct tb_event event;
-    tb_poll_event(&event);
+    tb_peek_event(&event, frame_rate);
     
     if(event_handle(&event) != EXIT_SUCCESS)
       goto tb_shutdown;

@@ -14,6 +14,14 @@ void change_menu_selection(unsigned int* old_selection, unsigned int new_selecti
   *old_selection = new_selection;
 }
 
+void change_selected_playlist(unsigned int new_playlist) {
+  if(selected_playlist == new_playlist)
+    return;
+
+  change_menu_selection(&selected_playlist, new_playlist, playlist_menu_items, playlist_names_length);
+  redraw_menus = true;
+}
+
 bool redraw_menus = true;
 int display_draw(void) {
   bool redrawn = false;

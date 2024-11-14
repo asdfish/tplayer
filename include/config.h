@@ -23,4 +23,6 @@ extern const unsigned int stroke_bindings_length;
 extern const struct KeyBinding key_bindings[];
 extern const unsigned int key_bindings_length;
 
+extern const unsigned int frame_rate;
+
 #endif
