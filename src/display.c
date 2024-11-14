@@ -4,25 +4,33 @@
 
 #include <termbox2.h>
 
+bool redraw_menus = true;
+
 int display_draw(void) {
-  struct TbMenu* menus[2] = {
-    &playlist_menu,
-    playlists_menus + selected_playlist
-  };
+  bool redrawn = false;
 
-  for(unsigned int i = 0; i < 2; i ++) {
-    if(i == selected_menu)
-      menus[i]->enable_reversed_colors = true;
-    else
-      menus[i]->enable_reversed_colors = false;
+  if(redraw_menus) {
+    struct TbMenu* menus[2] = {
+      &playlist_menu,
+      playlists_menus + selected_playlist
+    };
 
-    if(tb_menu_draw(menus[i]) != TBM_SUCCESS)
-      return EXIT_FAILURE;
+    for(unsigned int i = 0; i < 2; i ++) {
+      if(i == selected_menu)
+        menus[i]->enable_reversed_colors = true;
+      else
+        menus[i]->enable_reversed_colors = false;
+
+      if(tb_menu_draw(menus[i]) != TBM_SUCCESS)
+        return EXIT_FAILURE;
+    }
+
+    redraw_menus = false;
+    redrawn = true;
   }
 
-  tb_printf(0,0,0,0,"%s", strokes.contents);
-
-  tb_present();
+  if(redrawn)
+    tb_present();
   return EXIT_SUCCESS;
 }
 int display_resize(void) {

@@ -1,3 +1,4 @@
+#include <display.h>
 #include <stroke_functions.h>
 #include <main.h>
 
@@ -6,6 +7,7 @@ int stroke_function_menu_move_cursor_x(const struct Argument* argument) {
     selected_menu += argument->i;
   if(selected_menu > 1)
     selected_menu = 1;
+  redraw_menus = true;
   return EXIT_SUCCESS;
 }
 int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
@@ -16,6 +18,8 @@ int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
 
   if(tb_menu_move_cursor(menus[selected_menu], argument->i) != TBM_SUCCESS)
     return EXIT_FAILURE;
+
+  redraw_menus = true;
 
   return EXIT_SUCCESS;
 }
