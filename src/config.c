@@ -17,6 +17,7 @@ const struct StrokeBinding stroke_bindings[] = {
   { "j", bind_function_menu_move_cursor_y, { .i = 1 } },
   { "k", bind_function_menu_move_cursor_y, { .i = -1 } },
   { "l", bind_function_menu_move_cursor_x, { .i = 1 } },
+  { "r", bind_function_menu_move_cursor_to_selection },
   { "G", bind_function_menu_move_cursor_bottom },
   { "gg", bind_function_menu_move_cursor_top },
 
