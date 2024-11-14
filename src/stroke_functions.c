@@ -1,7 +1,11 @@
 #include <display.h>
 #include <stroke_functions.h>
+#include <macros.h>
 #include <main.h>
 
+int stroke_function_menu_move_cursor_bottom(const struct Argument* argument) {
+  return EXIT_SUCCESS;
+}
 int stroke_function_menu_move_cursor_x(const struct Argument* argument) {
   if((int) selected_menu + argument->i >= 0)
     selected_menu += argument->i;
@@ -11,10 +15,7 @@ int stroke_function_menu_move_cursor_x(const struct Argument* argument) {
   return EXIT_SUCCESS;
 }
 int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
-  struct TbMenu* menus[2] = {
-    &playlist_menu,
-    playlists_menus + selected_playlist,
-  };
+  GET_MENUS(menus)
 
   if(tb_menu_move_cursor(menus[selected_menu], argument->i) != TBM_SUCCESS)
     return EXIT_FAILURE;
