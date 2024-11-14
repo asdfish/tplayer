@@ -5,6 +5,7 @@
 #include <filesystem.h>
 #include <free.h>
 #include <main.h>
+#include <stroke.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
 static void init_menu(struct TbMenu* menu);
@@ -151,5 +152,11 @@ free_playlist_names:
 int init_strokes(void) {
   if(o_string_init(&strokes) != O_SUCCESS)
     return EXIT_FAILURE;
+  if(o_string_reserve(&strokes, stroke_bindings_max_length()) != O_SUCCESS)
+    goto free_all_strokes;
   return EXIT_SUCCESS;
+
+free_all_strokes:
+  free_all_strokes();
+  return EXIT_FAILURE;
 }
