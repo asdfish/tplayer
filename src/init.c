@@ -5,11 +5,11 @@
 #include <filesystem.h>
 #include <free.h>
 #include <main.h>
-#include <path.h>
 
 #include <tb_menu.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
+static const char* path_file_name(const char* path);
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items) {
   if(array == NULL || items == NULL)
@@ -24,10 +24,20 @@ static int array_to_menu_items(const char** array, unsigned int array_length, st
   for(unsigned int i = 0; i < array_length; i ++) {
     (*items)[i].foreground = menu_foreground;
     (*items)[i].foreground_reversed = menu_foreground_reversed;
-    (*items)[i].contents = path_get_file_name(array[i]);
+    (*items)[i].contents = path_file_name(array[i]);
   }
 
   return EXIT_SUCCESS;
+}
+static const char* path_file_name(const char* path) {
+  unsigned int length = strlen(path);
+  if(length == 0 || path[length - 1] == '/')
+    return path;
+
+  for(int i = length - 1; i >= 0; i --)
+    if(path[i] == '/')
+      return path + i + 1;
+  return path;
 }
 
 int init(void) {
