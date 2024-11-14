@@ -11,10 +11,4 @@
   string_name[0] = character; \
   string_name[1] = '\0';
 
-#define GET_MENUS(array_name) \
-struct TbMenu* array_name[2] = { \
-  &playlist_menu, \
-  playlists_menus + selected_playlist, \
-};
-
 #endif

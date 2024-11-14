@@ -4,6 +4,7 @@
 #include <structs.h>
 
 extern int stroke_function_menu_move_cursor_bottom(const struct Argument* argument);
+extern int stroke_function_menu_move_cursor_top(const struct Argument* argument);
 extern int stroke_function_menu_move_cursor_x(const struct Argument* argument);
 extern int stroke_function_menu_move_cursor_y(const struct Argument* argument);
 extern int stroke_function_menu_move_bottom(const struct Argument* argument);
