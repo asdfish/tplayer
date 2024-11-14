@@ -18,6 +18,7 @@ const struct Stroke stroke_bindings[] = {
   { "l", stroke_function_menu_move_cursor_x, { .i = 1 } },
   { "G", stroke_function_menu_move_cursor_bottom },
   { "gg", stroke_function_menu_move_cursor_top },
+  { "s", stroke_function_menu_select },
   { "q", stroke_function_quit },
 };
 const unsigned int stroke_bindings_length = ARRAY_LENGTH(stroke_bindings);

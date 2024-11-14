@@ -42,6 +42,18 @@ int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
 
   return EXIT_SUCCESS;
 }
+int stroke_function_menu_select(const struct Argument* argument) {
+  if(selected_menu == 0) {
+    if(selected_playlist != playlist_menu.cursor) {
+      selected_playlist = playlist_menu.cursor;
+      redraw_menus = true;
+    }
+
+    return EXIT_SUCCESS;
+  }
+
+  return EXIT_SUCCESS;
+}
 int stroke_function_quit(const struct Argument* argument) {
   running = false;
   return EXIT_SUCCESS;
