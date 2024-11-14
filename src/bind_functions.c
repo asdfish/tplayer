@@ -1,21 +1,10 @@
+#include <audio.h>
 #include <display.h>
 #include <bind_functions.h>
 #include <macros.h>
 #include <main.h>
 
-static int change_selected_song(unsigned int new_song);
 static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length, unsigned int* selection);
-
-static int change_selected_song(unsigned int new_song) {
-  if(new_song == selected_songs[selected_playlist])
-    goto change_song;
-
-  change_menu_selection(&selected_songs[selected_playlist], new_song, playlists_menus_items[selected_playlist], playlists_lengths[selected_playlist]);
-
-  redraw_menus = true;
-change_song:
-  return EXIT_SUCCESS;
-}
 
 static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length, unsigned int* selection) {
   if(selected_menu == 0) {
@@ -85,12 +74,12 @@ int bind_function_menu_move_cursor_y(const struct Argument* argument) {
 }
 int bind_function_menu_select(const struct Argument* argument) {
   if(selected_menu == 0) {
-    change_selected_playlist(playlist_menu.cursor);
+    display_change_selected_playlist(playlist_menu.cursor);
 
     return EXIT_SUCCESS;
   }
 
-  return change_selected_song(playlists_menus[selected_playlist].cursor);
+  return display_change_selected_song(playlists_menus[selected_playlist].cursor);
 }
 
 int bind_function_quit(const struct Argument* argument) {

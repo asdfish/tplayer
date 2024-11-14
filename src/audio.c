@@ -1,4 +1,5 @@
 #include <audio.h>
+#include <main.h>
 #include <stdlib.h>
 #include <miniaudio.h>
 
@@ -16,14 +17,12 @@ int audio_init(void) {
     return EXIT_FAILURE;
   return EXIT_SUCCESS;
 }
-
 bool audio_is_playing(void) {
   if(!started)
     return false;
 
   return ma_sound_is_playing(&sound);
 }
-
 int audio_play(const char* path) {
   if(started)
     sound_stop();
@@ -35,7 +34,9 @@ int audio_play(const char* path) {
   started = true;
   return EXIT_SUCCESS;
 }
-
+int audio_play_selected_song(void) {
+  return audio_play(playlists[selected_playlist][selected_songs[selected_playlist]]);
+}
 float audio_play_percentage(void) {
   if(!audio_is_playing())
     return 0.f;
@@ -53,7 +54,6 @@ float audio_play_percentage(void) {
 
   return cursor / length;
 }
-
 void audio_uninit(void) {
   if(started)
     sound_stop();

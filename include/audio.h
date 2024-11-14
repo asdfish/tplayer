@@ -6,6 +6,7 @@
 extern int audio_init(void);
 extern bool audio_is_playing(void);
 extern int audio_play(const char* path);
+extern int audio_play_selected_song(void);
 extern float audio_play_percentage(void);
 extern void audio_uninit(void);
 

@@ -4,7 +4,7 @@
 
 #include <termbox2.h>
 
-void change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length) {
+void display_change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length) {
   affected_items[*old_selection].foreground = menu_foreground;
   affected_items[*old_selection].foreground_reversed = menu_foreground_reversed;
 
@@ -14,12 +14,22 @@ void change_menu_selection(unsigned int* old_selection, unsigned int new_selecti
   *old_selection = new_selection;
 }
 
-void change_selected_playlist(unsigned int new_playlist) {
+void display_change_selected_playlist(unsigned int new_playlist) {
   if(selected_playlist == new_playlist)
     return;
 
-  change_menu_selection(&selected_playlist, new_playlist, playlist_menu_items, playlist_names_length);
+  display_change_menu_selection(&selected_playlist, new_playlist, playlist_menu_items, playlist_names_length);
   redraw_menus = true;
+}
+int display_change_selected_song(unsigned int new_song) {
+  if(new_song == selected_songs[selected_playlist])
+    goto display_change_song;
+
+  display_change_menu_selection(&selected_songs[selected_playlist], new_song, playlists_menus_items[selected_playlist], playlists_lengths[selected_playlist]);
+
+  redraw_menus = true;
+display_change_song:
+  return EXIT_SUCCESS;
 }
 
 bool redraw_menus = true;

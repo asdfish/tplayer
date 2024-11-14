@@ -153,11 +153,11 @@ static int init_selections(void) {
   if(selected_songs == NULL)
     return EXIT_FAILURE;
 
-  change_selected_playlist(0);
+  display_change_selected_playlist(0);
 
   for(unsigned int i = 0; i < playlist_names_length; i ++) {
     selected_songs[i] = 1;
-    change_menu_selection(&selected_songs[i], 0, playlists_menus_items[i], playlists_lengths[i]);
+    display_change_menu_selection(&selected_songs[i], 0, playlists_menus_items[i], playlists_lengths[i]);
   }
 
   return EXIT_SUCCESS;
