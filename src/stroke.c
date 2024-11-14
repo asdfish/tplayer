@@ -30,9 +30,10 @@ int stroke_process(void) {
   unsigned int strokes_length = strlen(strokes.contents);
 
   bool clear_stroke = false;
+  bool valid_stroke = false;
 
   if(strokes_length > max_length) {
-    clear_stroke = false;
+    clear_stroke = true;
     goto clear_stroke;
   }
 
@@ -50,11 +51,14 @@ int stroke_process(void) {
     }
 
     if(strncmp(strokes.contents, stroke_bindings[i].string, MIN(strokes_length, stroke_binding_length)) == 0)
-      clear_stroke = true;
+      valid_stroke = true;
   }
 
+  if(!valid_stroke)
+    clear_stroke = true;
+
 clear_stroke:
-  if(!clear_stroke) {
+  if(clear_stroke) {
     if(o_string_clear(&strokes) != EXIT_SUCCESS)
       return EXIT_FAILURE;
     return EXIT_SUCCESS;

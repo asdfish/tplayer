@@ -4,7 +4,6 @@
 
 #include <termbox2.h>
 
-#include <stroke.h>
 int display_draw(void) {
   struct TbMenu* menus[2] = {
     &playlist_menu,
@@ -20,6 +19,8 @@ int display_draw(void) {
     if(tb_menu_draw(menus[i]) != TBM_SUCCESS)
       return EXIT_FAILURE;
   }
+
+  tb_printf(0,0,0,0,"%s", strokes.contents);
 
   tb_present();
   return EXIT_SUCCESS;
