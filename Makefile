@@ -2,7 +2,9 @@ CC ?= cc
 C_FLAGS := -std=gnu11 $\
 					 -Og -g -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
-					 -I. -Iinclude -Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
+					 -Wno-missing-field-initializers -Wno-unused-parameter $\
+					 -I. -Iinclude $\
+					 -Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
 						-ldl -lm -lpthread $\
 						-Ldeps/orchestra -lorchestra $\
