@@ -50,8 +50,12 @@ int init(void) {
     goto free_all_playlists;
   if(init_menus() != EXIT_SUCCESS)
     goto free_all_menu_items;
+  if(init_strokes() != EXIT_SUCCESS)
+    goto free_all_menus;
   return EXIT_SUCCESS;
 
+free_all_menus:
+  free_all_menus();
 free_all_menu_items:
   free_all_menu_items();
 free_all_playlists:
@@ -143,4 +147,9 @@ free_playlists:
 free_playlist_names:
   free_playlist_names();
   return EXIT_FAILURE;
+}
+int init_strokes(void) {
+  if(o_string_init(&strokes) != O_SUCCESS)
+    return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }

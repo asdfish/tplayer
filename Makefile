@@ -2,9 +2,10 @@ CC ?= cc
 C_FLAGS := -std=gnu11 $\
 					 -Og -g -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
-					 -I. -Iinclude -Ideps/miniaudio -Ideps/tb_menu/include -Ideps/termbox2
+					 -I. -Iinclude -Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
 						-ldl -lm -lpthread $\
+						-Ldeps/orchestra -lorchestra $\
 						-Ldeps/tb_menu -ltb_menu
 
 MAKE ?= make
@@ -21,6 +22,8 @@ PROCESSED_HEADER_FILES := $(if ${PROCESS_HEADER_FILES},$\
 																.h.pch,$\
 																.h.gch),$\
 															$(shell find -name '*.h' -type f -not -path './deps/*')))
+
+TPLAYER_REQUIREMENTS := deps/orchestra/liborchestra.a deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 
 define COMPILE
 $(info Compiling $(2))
@@ -40,7 +43,7 @@ endef
 
 all: tplayer
 
-tplayer: deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
+tplayer: ${TPLAYER_REQUIREMENTS}
 	$(info Linking $@)
 	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
 
@@ -53,12 +56,13 @@ build/%.o: src/%.c
 %.pch: %
 	$(call COMPILE,$<,$@)
 
-deps/tb_menu/libtb_menu.a:
-	$(MAKE) -C deps/tb_menu
+%.a:
+	$(MAKE) -C $(dir $@)
+
+# deps/tb_menu/libtb_menu.a:
+# 	$(MAKE) -C deps/tb_menu
 
 clean:
-	$(call REMOVE,tplayer)
-	$(call REMOVE_LIST,${OBJECT_FILES})
-	$(call REMOVE_LIST,${PROCESSED_HEADER_FILES})
+	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
 
 .PHONY: all clean

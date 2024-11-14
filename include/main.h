@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <stdbool.h>
+#include <orchestra.h>
 #include <tb_menu.h>
 
 extern const char** playlist_names;
@@ -17,7 +18,10 @@ extern struct TbMenuItem* playlist_menu_items;
 extern struct TbMenuItem** playlists_menus_items;
 
 extern unsigned int selected_menu;
+extern unsigned int selected_playlist;
 
 extern bool running;
+
+extern o_string strokes;
 
 #endif

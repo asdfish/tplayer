@@ -97,3 +97,6 @@
 
   free_playlist_menu_items();
 }
+void free_all_strokes(void) {
+  o_string_uninit(&strokes);
+}

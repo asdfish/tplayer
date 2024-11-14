@@ -8,7 +8,7 @@
 int display_draw(void) {
   struct TbMenu* menus[2] = {
     &playlist_menu,
-    playlists_menus + selected_menu
+    playlists_menus + selected_playlist
   };
 
   for(unsigned int i = 0; i < 2; i ++) {

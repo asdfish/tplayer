@@ -3,6 +3,7 @@
 #include <free.h>
 #include <main.h>
 
+#include <orchestra.h>
 #include <tb_menu.h>
 
 #include <stddef.h>
@@ -21,8 +22,11 @@ struct TbMenuItem* playlist_menu_items = NULL;
 struct TbMenuItem** playlists_menus_items = NULL;
 
 unsigned int selected_menu = 0;
+unsigned int selected_playlist = 0;
 
 bool running = true;
+
+o_string strokes;
 
 int main(void) {
   if(init() != EXIT_SUCCESS)
