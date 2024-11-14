@@ -1,10 +1,10 @@
 #include <display.h>
-#include <stroke_functions.h>
+#include <bind_functions.h>
 #include <macros.h>
 #include <main.h>
 #include <utils.h>
 
-int stroke_function_menu_move_cursor_bottom(const struct Argument* argument) {
+int bind_function_menu_move_cursor_bottom(const struct Argument* argument) {
   struct TbMenu* focused_menu = NULL;
   unsigned int focused_menu_length = 0;
   get_selected_menu(&focused_menu, &focused_menu_length);
@@ -13,7 +13,7 @@ int stroke_function_menu_move_cursor_bottom(const struct Argument* argument) {
   redraw_menus = true;
   return EXIT_SUCCESS;
 }
-int stroke_function_menu_move_cursor_top(const struct Argument* argument) {
+int bind_function_menu_move_cursor_top(const struct Argument* argument) {
   struct TbMenu* focused_menu = NULL;
   unsigned int focused_menu_length = 0;
   get_selected_menu(&focused_menu, &focused_menu_length);
@@ -22,7 +22,7 @@ int stroke_function_menu_move_cursor_top(const struct Argument* argument) {
   redraw_menus = true;
   return EXIT_SUCCESS;
 }
-int stroke_function_menu_move_cursor_x(const struct Argument* argument) {
+int bind_function_menu_move_cursor_x(const struct Argument* argument) {
   if((int) selected_menu + argument->i >= 0)
     selected_menu += argument->i;
   if(selected_menu > 1)
@@ -30,7 +30,7 @@ int stroke_function_menu_move_cursor_x(const struct Argument* argument) {
   redraw_menus = true;
   return EXIT_SUCCESS;
 }
-int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
+int bind_function_menu_move_cursor_y(const struct Argument* argument) {
   struct TbMenu* focused_menu = NULL;
 
   get_selected_menu(&focused_menu, NULL);
@@ -42,7 +42,7 @@ int stroke_function_menu_move_cursor_y(const struct Argument* argument) {
 
   return EXIT_SUCCESS;
 }
-int stroke_function_menu_select(const struct Argument* argument) {
+int bind_function_menu_select(const struct Argument* argument) {
   if(selected_menu == 0) {
     if(selected_playlist != playlist_menu.cursor) {
       selected_playlist = playlist_menu.cursor;
@@ -54,7 +54,7 @@ int stroke_function_menu_select(const struct Argument* argument) {
 
   return EXIT_SUCCESS;
 }
-int stroke_function_quit(const struct Argument* argument) {
+int bind_function_quit(const struct Argument* argument) {
   running = false;
   return EXIT_SUCCESS;
 }

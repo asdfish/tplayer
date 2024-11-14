@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <stroke_functions.h>
+#include <bind_functions.h>
 #include <structs.h>
 
 #include <termbox2.h>
