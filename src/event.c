@@ -3,7 +3,6 @@
 #include <event.h>
 #include <macros.h>
 #include <main.h>
-#include <utils.h>
 #include <limits.h>
 #include <stdlib.h>
 
@@ -82,4 +81,11 @@ int event_handle(struct tb_event* event) {
   }
 
   return EXIT_SUCCESS;
+}
+unsigned int stroke_bindings_max_length(void) {
+  unsigned int max_length = 0;
+  for(unsigned int i = 0; i < stroke_bindings_length; i ++)
+    max_length = MAX(max_length, strlen(stroke_bindings[i].string));
+
+  return max_length;
 }
