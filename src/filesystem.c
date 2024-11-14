@@ -5,7 +5,6 @@
 #include <string.h>
 #include <unistd.h>
 
-// private
 static inline bool dirent_meets_criteria(struct dirent* dirent_pointer, enum DirentCriteria critera) {
   switch(critera) {
     case DIRENT_IS_DIRECTORY:
@@ -17,7 +16,6 @@ static inline bool dirent_meets_criteria(struct dirent* dirent_pointer, enum Dir
   }
 }
 
-// public
 int get_dirents_info(const char* path, enum DirentCriteria criteria, enum DirentInfo info_type, const char*** output, unsigned int* output_length) {
   if(path == NULL || output == NULL || output_length == NULL)
     goto exit_failure;
