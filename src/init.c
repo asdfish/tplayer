@@ -58,6 +58,7 @@ int init_tplayer_menus(void) {
 
   unsigned int i = 0;
   while(i < tplayer_playlist_names_length) {
+    tb_menu_init(tplayer_playlists_menus + i);
     if(tb_menu_set_items(tplayer_playlists_menus + i, tplayer_playlists_menus_items[i], tplayer_playlists_lengths[i]) != TBM_SUCCESS)
       goto free_tplayer_playlists_menus_contents_until;
     i ++;
