@@ -11,6 +11,7 @@ int change_song(void) {
 int change_specific_song(unsigned int song) {
   display_change_selected_song(song);
   redraw_menus = true;
+  redraw_status_bar = true;
   return audio_play(playlists[selected_playlist][song]);
 }
 
