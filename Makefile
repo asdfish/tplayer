@@ -1,6 +1,6 @@
 CC ?= cc
 C_FLAGS := -std=gnu11 $\
-					 -Og -g -march=native -pipe $\
+					 -O3 -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -Wno-missing-field-initializers -Wno-unused-parameter $\
 					 -Iinclude $\
@@ -11,6 +11,8 @@ LD_FLAGS := ${C_FLAGS} $\
 						-Ldeps/tb_menu -ltb_menu
 
 MAKE ?= make
+
+INSTALL_DIRECTORY := /usr/local/bin
 
 OBJECT_FILES := $(patsubst src/%.c,$\
 									build/%.o,$\
@@ -55,6 +57,7 @@ all: tplayer
 tplayer: ${TPLAYER_REQUIREMENTS}
 	$(info Linking $@)
 	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
+	@strip $@
 
 build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
@@ -66,9 +69,17 @@ build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
 
 %.a:
-	$(MAKE) -C $(dir $@)
+	CFLAGS='${C_FLAGS}' $(MAKE) -C $(dir $@)
 
 clean:
 	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
 
-.PHONY: all clean
+install: tplayer ${INSTALL_DIRECTORY} uninstall
+	cp tplayer ${INSTALL_DIRECTORY}
+
+uninstall:
+ifneq (,$(wildcard ${INSTALL_DIRECTORY}/tplayer))
+	rm ${INSTALL_DIRECTORY}/tplayer
+endif
+
+.PHONY: all clean install uninstall
