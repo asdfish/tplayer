@@ -106,7 +106,6 @@ int bind_function_menu_select(const struct Argument* argument) {
     return EXIT_SUCCESS;
   }
 
-  redraw_status_bar = true;
   return change_specific_song(playlists_menus[selected_playlist].cursor);
 }
 
