@@ -30,14 +30,13 @@ PROCESSED_HEADER_FILES := $(if ${PROCESS_HEADER_FILES},$\
 TPLAYER_REQUIREMENTS := deps/orchestra/liborchestra.a deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 
 define COMPILE
-$(info Compiling $(2))
-@${CC} -c $(1) ${C_FLAGS} -o $(2)
+${CC} -c $(1) ${C_FLAGS} -o $(2)
 
 endef
 define REMOVE
 $(if $(wildcard $(1)),$\
-	$(info Removing $(1))
-	$(shell rm $(1)))
+	rm $(1))
+
 endef
 define REMOVE_DEPENDENCY
 $(if $(wildcard $(1)),$\
@@ -55,9 +54,8 @@ endef
 all: tplayer
 
 tplayer: ${TPLAYER_REQUIREMENTS}
-	$(info Linking $@)
-	@${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
-	@strip $@
+	${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
+	strip $@
 
 build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
