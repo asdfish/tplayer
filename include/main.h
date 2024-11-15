@@ -27,6 +27,4 @@ extern bool running;
 
 extern o_string strokes;
 
-extern struct StatusInfoOutput* status_info_outputs;
-
 #endif

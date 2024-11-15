@@ -17,16 +17,13 @@ static unsigned int int_string_length(unsigned int input) {
   return length;
 }
 
-int status_info_play_percentage(struct StatusInfoOutput* output) {
-  unsigned int play_percentage = status_info_play_percentage_max * audio_play_percentage();
-  unsigned int string_length = int_string_length(play_percentage) + 1;
-
-  output->contents = (char*) malloc(string_length * sizeof(char));
+int status_info_init_play_percentage(struct StatusInfo* output) {
+  output->contents = (char*) malloc((int_string_length(status_info_play_percentage_max) + 1) * sizeof(char));
   if(output->contents == NULL)
     return EXIT_FAILURE;
-
-  if(snprintf(output->contents, string_length, "%u", play_percentage) < 0)
-    return EXIT_FAILURE;
-  output->malloced = true;
+  return EXIT_SUCCESS;
+}
+int status_info_set_play_percentage(struct StatusInfo* output) {
+  sprintf(output->contents, "%u", (unsigned int) (status_info_play_percentage_max * audio_play_percentage()));
   return EXIT_SUCCESS;
 }

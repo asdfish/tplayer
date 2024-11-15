@@ -73,6 +73,16 @@
   }
 }
 
+void free_status_info(void) {
+  free_status_info_until(status_info_length);
+}
+void free_status_info_until(unsigned int until) {
+  for(unsigned int i = 0; i < until; i ++) {
+    free(status_info[i].contents);
+    status_info[i].contents = NULL;
+  }
+}
+
  void free_all(void) {
   free_all_playlists();
   free_all_menu_items();
@@ -113,11 +123,5 @@ void free_all_selections(void) {
   selected_songs = NULL;
 }
 void free_all_status_bars(void) {
-  for(unsigned int i = 0; i < status_info_length; i ++)
-    if(status_info_outputs[i].malloced) {
-      free(status_info_outputs[i].contents);
-      status_info_outputs[i].contents = NULL;
-    }
-  free(status_info_outputs);
-  status_info_outputs = NULL;
+  free_status_info();
 }

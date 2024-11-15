@@ -1,7 +1,7 @@
 #include <config.h>
 #include <display.h>
 #include <main.h>
-
+#include <status_bar.h>
 #include <termbox2.h>
 
 void display_change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length) {
@@ -55,6 +55,10 @@ int display_draw(void) {
     redraw_menus = false;
     redrawn = true;
   }
+
+  status_bar_update();
+  status_bar_draw();
+  redrawn = true;
 
   if(redrawn)
     tb_present();

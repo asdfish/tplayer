@@ -2,6 +2,7 @@
 #define STRUCTS_H
 
 #include <change_song.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 struct Argument {
@@ -23,6 +24,15 @@ struct StrokeBinding {
 struct ChangeSongFunctionConfig {
   ChangeSongFunction function;
   const char* name;
+};
+
+struct StatusInfo;
+
+typedef int (*StatusInfoFunction) (struct StatusInfo* output);
+struct StatusInfo {
+  StatusInfoFunction init_function;
+  StatusInfoFunction set_function;
+  char* contents;
 };
 
 #endif

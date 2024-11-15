@@ -30,7 +30,7 @@ extern const unsigned int frame_rate;
 extern const struct ChangeSongFunctionConfig change_song_functions[];
 extern const unsigned int change_song_functions_length;
 
-extern const StatusInfo status_info[];
+extern struct StatusInfo status_info[];
 extern const unsigned int status_info_length;
 
 extern const unsigned int status_info_play_percentage_max;
