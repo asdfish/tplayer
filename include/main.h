@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <stdbool.h>
+#include <status_info.h>
 #include <orchestra.h>
 #include <tb_menu.h>
 
@@ -25,5 +26,7 @@ extern unsigned int* selected_songs;
 extern bool running;
 
 extern o_string strokes;
+
+extern struct StatusInfoOutput* status_info_outputs;
 
 #endif

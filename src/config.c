@@ -9,7 +9,8 @@ const uintattr_t menu_selected_foreground = TB_RED;
 const uintattr_t menu_selected_foreground_reversed = TB_RED;
 const float menu_split = 0.5f;
 
-const char* playlists_path = "/path/to/your/playlists";
+/*const char* playlists_path = "/path/to/your/playlists";*/
+const char* playlists_path = "/home/andre/files/music";
 
 const char* strokes_allowed_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`1234567890-=~!@#$%^&*()_+[]{}\\|;':\",./<>?";
 const struct StrokeBinding stroke_bindings[] = {
@@ -43,3 +44,10 @@ const struct ChangeSongFunctionConfig change_song_functions[] = {
   { change_song_loop,   "loop" },
 };
 const unsigned int change_song_functions_length = ARRAY_LENGTH(change_song_functions);
+
+const StatusInfo status_info[] = {
+  status_info_play_percentage
+};
+const unsigned int status_info_length = ARRAY_LENGTH(status_info);
+
+const unsigned int status_info_play_percentage_max = 100;

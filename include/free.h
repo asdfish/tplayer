@@ -27,5 +27,6 @@ extern void free_all_menus(void);
 extern void free_all_menu_items(void);
 extern void free_all_strokes(void);
 extern void free_all_selections(void);
+extern void free_all_status_bars(void);
 
 #endif

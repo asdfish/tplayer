@@ -3,6 +3,7 @@
 
 #include <bind_functions.h>
 #include <change_song.h>
+#include <status_info.h>
 #include <structs.h>
 
 #include <termbox2.h>
@@ -28,5 +29,10 @@ extern const unsigned int frame_rate;
 
 extern const struct ChangeSongFunctionConfig change_song_functions[];
 extern const unsigned int change_song_functions_length;
+
+extern const StatusInfo status_info[];
+extern const unsigned int status_info_length;
+
+extern const unsigned int status_info_play_percentage_max;
 
 #endif

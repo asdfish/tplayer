@@ -56,10 +56,6 @@ static int init_audio(void) {
   if(audio_init() != EXIT_SUCCESS)
     return EXIT_FAILURE;
   return EXIT_SUCCESS;
-
-audio_uninit:
-  audio_uninit();
-  return EXIT_FAILURE;
 }
 static int init_menus(void) {
   tb_menu_init(&playlist_menu);
@@ -172,6 +168,18 @@ free_all_strokes:
   free_all_strokes();
   return EXIT_FAILURE;
 }
+static int init_status_bar(void) {
+  status_info_outputs = (struct StatusInfoOutput*) malloc(status_info_length * sizeof(struct StatusInfoOutput));
+  if(status_info_outputs == NULL)
+    return EXIT_FAILURE;
+  
+  for(unsigned int i = 0; i < status_info_length; i ++) {
+    status_info_outputs[i].contents = NULL;
+    status_info_outputs[i].malloced = false;
+  }
+
+  return EXIT_SUCCESS;
+}
 
 int init(void) {
   if(init_playlists() != EXIT_SUCCESS)
@@ -186,11 +194,15 @@ int init(void) {
     goto free_all_strokes;
   if(init_audio() != EXIT_SUCCESS)
     goto free_all_selections;
+  if(init_status_bar() != EXIT_SUCCESS)
+    goto free_all_audio;
 
   srand(time(NULL));
 
   return EXIT_SUCCESS;
 
+free_all_audio:
+  free_all_audio();
 free_all_selections:
   free_all_selections();
 free_all_strokes:

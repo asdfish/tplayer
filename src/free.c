@@ -1,6 +1,8 @@
 #include <audio.h>
+#include <config.h>
 #include <free.h>
 #include <main.h>
+#include <status_info.h>
 #include <stdlib.h>
 #include <tb_menu.h>
 
@@ -78,8 +80,9 @@
   free_all_strokes();
   free_all_selections();
   free_all_audio();
+  free_all_status_bars();
 }
-extern void free_all_audio(void) {
+void free_all_audio(void) {
   audio_uninit();
 }
  void free_all_playlists(void) {
@@ -108,4 +111,13 @@ void free_all_strokes(void) {
 void free_all_selections(void) {
   free(selected_songs);
   selected_songs = NULL;
+}
+void free_all_status_bars(void) {
+  for(unsigned int i = 0; i < status_info_length; i ++)
+    if(status_info_outputs[i].malloced) {
+      free(status_info_outputs[i].contents);
+      status_info_outputs[i].contents = NULL;
+    }
+  free(status_info_outputs);
+  status_info_outputs = NULL;
 }

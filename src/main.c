@@ -34,6 +34,8 @@ bool running = true;
 
 o_string strokes;
 
+struct StatusInfoOutput* status_info_outputs = NULL;
+
 int main(void) {
   if(init() != EXIT_SUCCESS)
     return EXIT_FAILURE;
