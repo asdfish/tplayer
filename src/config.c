@@ -50,6 +50,7 @@ const unsigned int change_song_functions_length = ARRAY_LENGTH(change_song_funct
 struct StatusInfo status_info[] = {
   { status_info_init_play_percentage_symbol, status_info_set_play_percentage_symbol, },
   { status_info_init_change_song_function_name, status_info_set_change_song_function_name, },
+  { status_info_init_strokes, status_info_set_strokes, },
   { status_info_init_current_playlist_name, status_info_set_current_playlist_name, },
   { status_info_init_current_song_name, status_info_set_current_song_name, },
 };

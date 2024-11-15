@@ -84,3 +84,14 @@ int status_info_set_play_percentage_symbol(struct StatusInfo* output) {
   const char* symbol = status_info_play_percentage_symbol[symbol_index];
   return status_info_set_existing_string(symbol, output);
 }
+
+int status_info_init_strokes(struct StatusInfo* output) {
+  unsigned int max_length = 0;
+  for(unsigned int i = 0; i < stroke_bindings_length; i ++)
+    max_length = MAX(max_length, strlen(stroke_bindings[i].string));
+
+  return status_info_init(max_length, output);
+}
+int status_info_set_strokes(struct StatusInfo* output) {
+  return status_info_set_existing_string(strokes.contents, output);
+}

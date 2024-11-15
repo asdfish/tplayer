@@ -18,4 +18,7 @@ extern int status_info_set_play_percentage(struct StatusInfo* output);
 extern int status_info_init_play_percentage_symbol(struct StatusInfo* output);
 extern int status_info_set_play_percentage_symbol(struct StatusInfo* output);
 
+extern int status_info_init_strokes(struct StatusInfo* output);
+extern int status_info_set_strokes(struct StatusInfo* output);
+
 #endif

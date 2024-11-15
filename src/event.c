@@ -82,6 +82,7 @@ int event_handle(struct tb_event* event) {
 
     if(stroke_process() != EXIT_SUCCESS)
       return EXIT_FAILURE;
+    redraw_status_bar = true;
   }
 
   for(unsigned int i = 0; i < key_bindings_length; i ++)
