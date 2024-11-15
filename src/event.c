@@ -68,9 +68,13 @@ int event_handle(struct tb_event* event) {
   if(event == NULL)
     return EXIT_FAILURE;
 
-  if(event->type == TB_EVENT_RESIZE)
+  if(event->type == TB_EVENT_RESIZE) {
     if(display_resize() != EXIT_SUCCESS)
       return EXIT_FAILURE;
+    redraw_menus = true;
+    redraw_status_bar = true;
+    return EXIT_SUCCESS;
+  }
 
   if(event->ch < CHAR_MAX) {
     if(stroke_add_char((char) event->ch) != EXIT_SUCCESS)
