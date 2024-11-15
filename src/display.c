@@ -63,6 +63,7 @@ int display_draw(void) {
 int display_resize(void) {
   int terminal_width = tb_width();
   int terminal_height = tb_height();
+  unsigned int menus_height = terminal_height > 0 ? terminal_height - 1 : 0;
 
   if(terminal_width < 0 || terminal_height < 0)
     return EXIT_FAILURE;
@@ -71,14 +72,14 @@ int display_resize(void) {
   unsigned int playlists_menus_width = terminal_width - playlist_menu_width;
 
   playlist_menu.x = 0;
-  playlist_menu.y = 0;
+  playlist_menu.y = 1;
   playlist_menu.width = playlist_menu_width;
-  playlist_menu.height = terminal_height;
+  playlist_menu.height = menus_height;
   for(unsigned int i = 0; i < playlist_names_length; i ++) {
     playlists_menus[i].x = playlist_menu_width;
-    playlists_menus[i].y = 0;
+    playlists_menus[i].y = 1;
     playlists_menus[i].width = playlists_menus_width;
-    playlists_menus[i].height = terminal_height;
+    playlists_menus[i].height = menus_height;
   }
 
   return EXIT_SUCCESS;
