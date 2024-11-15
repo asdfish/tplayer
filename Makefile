@@ -68,9 +68,6 @@ build/%.o: src/%.c
 %.a:
 	$(MAKE) -C $(dir $@)
 
-# deps/tb_menu/libtb_menu.a:
-# 	$(MAKE) -C deps/tb_menu
-
 clean:
 	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
 

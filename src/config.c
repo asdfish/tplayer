@@ -1,9 +1,9 @@
 #include <config.h>
 #include <macros.h>
 
-const uintattr_t menu_background = TB_BLACK;
+const uintattr_t menu_background = 0;
 const uintattr_t menu_background_reversed = TB_WHITE;
-const uintattr_t menu_foreground = TB_WHITE;
+const uintattr_t menu_foreground = 0;
 const uintattr_t menu_foreground_reversed = TB_BLACK;
 const uintattr_t menu_selected_foreground = TB_RED;
 const uintattr_t menu_selected_foreground_reversed = TB_RED;
@@ -34,7 +34,7 @@ const struct KeyBinding key_bindings[] = {
 };
 const unsigned int key_bindings_length = ARRAY_LENGTH(key_bindings);
 
-// 24 fps
+// milliseconds
 const unsigned int frame_rate = 1000 / 24;
 
 const ChangeSongFunction change_song_functions[] = {
