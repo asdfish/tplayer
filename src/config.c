@@ -53,6 +53,9 @@ struct StatusInfo status_info[] = {
 const unsigned int status_info_length = ARRAY_LENGTH(status_info);
 const char* status_info_separator = " | ";
 
+// how many ticks before forced status info update
+const unsigned int status_info_update_rate = 100;
+
 const uintattr_t status_info_foreground = 0;
 const uintattr_t status_info_background = 0;
 

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 extern bool redraw_menus;
+extern bool redraw_status_bar;
 
 extern void display_change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length);
 extern void display_change_selected_playlist(unsigned int new_playlist);

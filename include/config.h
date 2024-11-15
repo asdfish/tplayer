@@ -34,6 +34,8 @@ extern struct StatusInfo status_info[];
 extern const unsigned int status_info_length;
 extern const char* status_info_separator;
 
+extern const unsigned int status_info_update_rate;
+
 extern const uintattr_t status_info_foreground;
 extern const uintattr_t status_info_background;
 

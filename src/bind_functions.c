@@ -38,6 +38,7 @@ int bind_function_change_song_function(const struct Argument* argument) {
     next_function = change_song_functions_length;
 
   selected_change_song_function = next_function;
+  redraw_status_bar = true;
   return EXIT_SUCCESS;
 }
 int bind_function_change_song_function_step(const struct Argument* argument) {
@@ -46,6 +47,7 @@ int bind_function_change_song_function_step(const struct Argument* argument) {
   if(selected_change_song_function > change_song_functions_length)
     selected_change_song_function = change_song_functions_length;
 
+  redraw_status_bar = true;
   return EXIT_SUCCESS;
 }
 
@@ -100,9 +102,11 @@ int bind_function_menu_select(const struct Argument* argument) {
   if(selected_menu == 0) {
     display_change_selected_playlist(playlist_menu.cursor);
 
+    redraw_status_bar = true;
     return EXIT_SUCCESS;
   }
 
+  redraw_status_bar = true;
   return change_specific_song(playlists_menus[selected_playlist].cursor);
 }
 

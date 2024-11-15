@@ -4,6 +4,8 @@
 #include <status_bar.h>
 #include <termbox2.h>
 
+unsigned int ticks = 0;
+
 void display_change_menu_selection(unsigned int* old_selection, unsigned int new_selection, struct TbMenuItem* affected_items, unsigned int affected_items_length) {
   affected_items[*old_selection].foreground = menu_foreground;
   affected_items[*old_selection].foreground_reversed = menu_foreground_reversed;
@@ -33,6 +35,7 @@ display_change_song:
 }
 
 bool redraw_menus = true;
+bool redraw_status_bar = true;
 int display_draw(void) {
   bool redrawn = false;
 
@@ -56,12 +59,19 @@ int display_draw(void) {
     redrawn = true;
   }
 
-  status_bar_update();
-  status_bar_draw();
-  redrawn = true;
+  if(redraw_status_bar || ticks == 0 || ticks % status_info_update_rate == 0) {
+    if(status_bar_update() != EXIT_SUCCESS)
+      return EXIT_FAILURE;
+    status_bar_draw();
+
+    redraw_status_bar = false;
+    redrawn = true;
+  }
 
   if(redrawn)
     tb_present();
+
+  ticks ++;
   return EXIT_SUCCESS;
 }
 int display_resize(void) {
