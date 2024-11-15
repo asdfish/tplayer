@@ -41,4 +41,7 @@ extern const uintattr_t status_info_background;
 
 extern const unsigned int status_info_play_percentage_max;
 
+extern const char* status_info_play_percentage_symbol[];
+extern const unsigned int status_info_play_percentage_symbol_length;
+
 #endif

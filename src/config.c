@@ -18,6 +18,9 @@ const struct StrokeBinding stroke_bindings[] = {
   { "k", bind_function_menu_move_cursor_y, { .i = -1 } },
   { "l", bind_function_menu_move_cursor_x, { .i = 1 } },
 
+  { "H", bind_function_change_song_function_step, { .i = -1 } },
+  { "L", bind_function_change_song_function_step, { .i = 1 } },
+
   { "r", bind_function_menu_move_cursor_to_selection },
 
   { "G", bind_function_menu_move_cursor_bottom },
@@ -48,7 +51,7 @@ struct StatusInfo status_info[] = {
   { status_info_init_change_song_function_name, status_info_set_change_song_function_name, },
   { status_info_init_current_song_name, status_info_set_current_song_name, },
   { status_info_init_current_playlist_name, status_info_set_current_playlist_name, },
-  { status_info_init_play_percentage, status_info_set_play_percentage, },
+  { status_info_init_play_percentage_symbol, status_info_set_play_percentage_symbol, },
 };
 const unsigned int status_info_length = ARRAY_LENGTH(status_info);
 const char* status_info_separator = " | ";
@@ -60,3 +63,16 @@ const uintattr_t status_info_foreground = 0;
 const uintattr_t status_info_background = 0;
 
 const unsigned int status_info_play_percentage_max = 100;
+
+const char* status_info_play_percentage_symbol[] = {
+  "[=        ]",
+  "[==       ]",
+  "[===      ]",
+  "[====     ]",
+  "[=====    ]",
+  "[======   ]",
+  "[=======  ]",
+  "[======== ]",
+  "[=========]",
+};
+const unsigned int status_info_play_percentage_symbol_length = ARRAY_LENGTH(status_info_play_percentage_symbol);
