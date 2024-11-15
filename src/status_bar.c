@@ -14,8 +14,10 @@ void status_bar_draw(void) {
 
   unsigned int x = 0;
   for(unsigned int i = 0; i < status_info_length; i ++) {
-    tb_printf(x, 0, 0, 0, "%s", status_info[i].contents);
+    tb_print(x, 0, status_info_foreground, status_info_background, status_info[i].contents);
     x += strlen(status_info[i].contents);
+    tb_print(x, 0, status_info_foreground, status_info_background, status_info_separator);
+    x += strlen(status_info_separator);
   }
 }
 int status_bar_update(void) {

@@ -32,6 +32,10 @@ extern const unsigned int change_song_functions_length;
 
 extern struct StatusInfo status_info[];
 extern const unsigned int status_info_length;
+extern const char* status_info_separator;
+
+extern const uintattr_t status_info_foreground;
+extern const uintattr_t status_info_background;
 
 extern const unsigned int status_info_play_percentage_max;
 

@@ -48,5 +48,9 @@ struct StatusInfo status_info[] = {
   { status_info_init_play_percentage, status_info_set_play_percentage, },
 };
 const unsigned int status_info_length = ARRAY_LENGTH(status_info);
+const char* status_info_separator = " |";
+
+const uintattr_t status_info_foreground = 0;
+const uintattr_t status_info_background = 0;
 
 const unsigned int status_info_play_percentage_max = 100;
