@@ -1,7 +1,7 @@
 #include <config.h>
 #include <macros.h>
 
-const uintattr_t menu_background = 0;
+const uintattr_t menu_background = TB_BLACK;
 const uintattr_t menu_background_reversed = TB_WHITE;
 const uintattr_t menu_foreground = 0;
 const uintattr_t menu_foreground_reversed = TB_BLACK;
@@ -48,10 +48,10 @@ const struct ChangeSongFunctionConfig change_song_functions[] = {
 const unsigned int change_song_functions_length = ARRAY_LENGTH(change_song_functions);
 
 struct StatusInfo status_info[] = {
-  { status_info_init_change_song_function_name, status_info_set_change_song_function_name, },
-  { status_info_init_current_song_name, status_info_set_current_song_name, },
-  { status_info_init_current_playlist_name, status_info_set_current_playlist_name, },
   { status_info_init_play_percentage_symbol, status_info_set_play_percentage_symbol, },
+  { status_info_init_change_song_function_name, status_info_set_change_song_function_name, },
+  { status_info_init_current_playlist_name, status_info_set_current_playlist_name, },
+  { status_info_init_current_song_name, status_info_set_current_song_name, },
 };
 const unsigned int status_info_length = ARRAY_LENGTH(status_info);
 const char* status_info_separator = " | ";
@@ -59,8 +59,8 @@ const char* status_info_separator = " | ";
 // how many ticks before forced status info update
 const unsigned int status_info_update_rate = 100;
 
-const uintattr_t status_info_foreground = TB_BLUE;
-const uintattr_t status_info_background = 0;
+const uintattr_t status_info_foreground = 0;
+const uintattr_t status_info_background = TB_BLACK;
 
 const unsigned int status_info_play_percentage_max = 100;
 
