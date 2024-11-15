@@ -5,7 +5,7 @@
 #include <main.h>
 
 int change_song(void) {
-  unsigned int next_song = change_song_functions[selected_change_song_function]();
+  unsigned int next_song = change_song_functions[selected_change_song_function].function();
   return change_specific_song(next_song);
 }
 int change_specific_song(unsigned int song) {

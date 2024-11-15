@@ -37,9 +37,9 @@ const unsigned int key_bindings_length = ARRAY_LENGTH(key_bindings);
 // milliseconds
 const unsigned int frame_rate = 1000 / 24;
 
-const ChangeSongFunction change_song_functions[] = {
-  change_song_next,
-  change_song_random,
-  change_song_loop,
+const struct ChangeSongFunctionConfig change_song_functions[] = {
+  { change_song_random, "random" },
+  { change_song_next,   "order" },
+  { change_song_loop,   "loop" },
 };
 const unsigned int change_song_functions_length = ARRAY_LENGTH(change_song_functions);

@@ -26,7 +26,7 @@ extern const unsigned int key_bindings_length;
 
 extern const unsigned int frame_rate;
 
-extern const ChangeSongFunction change_song_functions[];
+extern const struct ChangeSongFunctionConfig change_song_functions[];
 extern const unsigned int change_song_functions_length;
 
 #endif
