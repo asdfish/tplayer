@@ -6,4 +6,5 @@ sudo make install
 ~~~
 
 ## Configuring
-Some of the configuring options are in [src/global.c](src/global.c) and others are in [include/global.h](include/global.h).
+Configuration is in [src/config.c](src/config.c).
+Do not change \*_length variables.
