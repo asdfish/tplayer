@@ -3,6 +3,9 @@
 
 #include <structs.h>
 
+extern int bind_function_change_song(const struct Argument* argument);
+extern int bind_function_change_song_function(const struct Argument* argument);
+
 extern int bind_function_menu_move_cursor_bottom(const struct Argument* argument);
 extern int bind_function_menu_move_cursor_to_selection(const struct Argument* argument);
 extern int bind_function_menu_move_cursor_top(const struct Argument* argument);

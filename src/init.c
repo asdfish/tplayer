@@ -6,6 +6,7 @@
 #include <free.h>
 #include <event.h>
 #include <main.h>
+#include <time.h>
 
 static int array_to_menu_items(const char** array, unsigned int array_length, struct TbMenuItem** items);
 static int init_audio(void);
@@ -54,8 +55,6 @@ static const char* path_file_name(const char* path) {
 static int init_audio(void) {
   if(audio_init() != EXIT_SUCCESS)
     return EXIT_FAILURE;
-  /*if(audio_play(playlists[selected_playlist][selected_songs[selected_playlist]]) != EXIT_SUCCESS)*/
-  /*  goto audio_uninit;*/
   return EXIT_SUCCESS;
 
 audio_uninit:
@@ -187,6 +186,9 @@ int init(void) {
     goto free_all_strokes;
   if(init_audio() != EXIT_SUCCESS)
     goto free_all_selections;
+
+  srand(time(NULL));
+
   return EXIT_SUCCESS;
 
 free_all_selections:

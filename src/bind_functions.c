@@ -1,4 +1,6 @@
 #include <audio.h>
+#include <config.h>
+#include <change_song.h>
 #include <display.h>
 #include <bind_functions.h>
 #include <macros.h>
@@ -23,6 +25,20 @@ static void get_selected_menu(struct TbMenu** menu, unsigned int* menu_length, u
     *menu_length = playlists_lengths[selected_playlist];
   if(selection != NULL)
     *selection = selected_songs[selected_playlist];
+}
+
+int bind_function_change_song(const struct Argument* argument) {
+  return change_song();
+}
+int bind_function_change_song_function(const struct Argument* argument) {
+  int next_function = argument->i;
+  if(next_function < 0)
+    next_function = 0;
+  if((unsigned int) next_function > change_song_functions_length)
+    next_function = change_song_functions_length;
+
+  selected_change_song_function = next_function;
+  return EXIT_SUCCESS;
 }
 
 int bind_function_menu_move_cursor_bottom(const struct Argument* argument) {
@@ -79,7 +95,7 @@ int bind_function_menu_select(const struct Argument* argument) {
     return EXIT_SUCCESS;
   }
 
-  return display_change_selected_song(playlists_menus[selected_playlist].cursor);
+  return change_specific_song(playlists_menus[selected_playlist].cursor);
 }
 
 int bind_function_quit(const struct Argument* argument) {

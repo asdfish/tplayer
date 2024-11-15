@@ -1,3 +1,5 @@
+#include <audio.h>
+#include <change_song.h>
 #include <config.h>
 #include <display.h>
 #include <init.h>
@@ -23,6 +25,7 @@ struct TbMenu* playlists_menus = NULL;
 struct TbMenuItem* playlist_menu_items = NULL;
 struct TbMenuItem** playlists_menus_items = NULL;
 
+unsigned int selected_change_song_function = 0;
 unsigned int selected_menu = 0;
 unsigned int selected_playlist = 1;
 unsigned int* selected_songs = NULL;
@@ -41,6 +44,10 @@ int main(void) {
     goto tb_shutdown;
 
   while(running) {
+    if(!audio_is_playing())
+      if(change_song() != EXIT_SUCCESS)
+        goto tb_shutdown;
+
     if(display_draw() != EXIT_SUCCESS)
       goto tb_shutdown;
 

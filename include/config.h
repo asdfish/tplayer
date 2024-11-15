@@ -2,6 +2,7 @@
 #define CONFIG_H
 
 #include <bind_functions.h>
+#include <change_song.h>
 #include <structs.h>
 
 #include <termbox2.h>
@@ -24,5 +25,8 @@ extern const struct KeyBinding key_bindings[];
 extern const unsigned int key_bindings_length;
 
 extern const unsigned int frame_rate;
+
+extern const ChangeSongFunction change_song_functions[];
+extern const unsigned int change_song_functions_length;
 
 #endif
