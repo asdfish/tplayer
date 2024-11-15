@@ -40,6 +40,14 @@ int bind_function_change_song_function(const struct Argument* argument) {
   selected_change_song_function = next_function;
   return EXIT_SUCCESS;
 }
+int bind_function_change_song_function_step(const struct Argument* argument) {
+  if((int) selected_change_song_function + argument->i >= 0)
+    selected_change_song_function += argument->i;
+  if(selected_change_song_function > change_song_functions_length)
+    selected_change_song_function = change_song_functions_length;
+
+  return EXIT_SUCCESS;
+}
 
 int bind_function_menu_move_cursor_bottom(const struct Argument* argument) {
   struct TbMenu* focused_menu = NULL;
