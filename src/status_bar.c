@@ -3,6 +3,11 @@
 #include <termbox2.h>
 #include <string.h>
 
+static void status_bar_print(unsigned int* x, const char* text) {
+  tb_print(*x, 0, status_info_foreground, status_info_background, text);
+  *x += strlen(text);
+}
+
 void status_bar_draw(void) {
   int terminal_width = tb_width();
   if(terminal_width < 0)
@@ -13,11 +18,10 @@ void status_bar_draw(void) {
     tb_set_cell(i, 0, ' ', 0, 0);
 
   unsigned int x = 0;
+  status_bar_print(&x, status_info_separator);
   for(unsigned int i = 0; i < status_info_length; i ++) {
-    tb_print(x, 0, status_info_foreground, status_info_background, status_info[i].contents);
-    x += strlen(status_info[i].contents);
-    tb_print(x, 0, status_info_foreground, status_info_background, status_info_separator);
-    x += strlen(status_info_separator);
+    status_bar_print(&x, status_info[i].contents);
+    status_bar_print(&x, status_info_separator);
   }
 }
 int status_bar_update(void) {
