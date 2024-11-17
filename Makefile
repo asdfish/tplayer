@@ -71,6 +71,7 @@ build/%.o: src/%.c
 
 clean:
 	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
+	$(call REMOVE,tplayer)
 
 install: tplayer ${INSTALL_DIRECTORY} uninstall
 	cp tplayer ${INSTALL_DIRECTORY}
