@@ -4,7 +4,7 @@
 #include <main.h>
 #include <status_info.h>
 #include <stdlib.h>
-#include <tb_menu.h>
+#include <tb_menu/tb_menu.h>
 
  void free_playlist_names(void) {
   free(playlist_names);

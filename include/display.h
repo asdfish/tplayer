@@ -1,7 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include <tb_menu.h>
+#include <tb_menu/tb_menu.h>
 #include <stdbool.h>
 
 extern bool redraw_menus;

@@ -3,8 +3,8 @@
 
 #include <stdbool.h>
 #include <status_info.h>
-#include <orchestra.h>
-#include <tb_menu.h>
+#include <orchestra/orchestra.h>
+#include <tb_menu/tb_menu.h>
 
 extern const char** playlist_names;
 extern unsigned int playlist_names_length;

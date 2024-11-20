@@ -7,8 +7,8 @@
 #include <event.h>
 #include <main.h>
 
-#include <orchestra.h>
-#include <tb_menu.h>
+#include <orchestra/orchestra.h>
+#include <tb_menu/tb_menu.h>
 
 #include <stddef.h>
 #include <stdlib.h>
