@@ -1,9 +1,18 @@
+define ENABLE_CPU_OPTIMIZATION
+$(if $(shell grep -o $(1) /proc/cpuinfo),$\
+	-m$(1),$\
+	-DMA_NO_$(2))
+endef
+
 CC ?= cc
 C_FLAGS := -std=gnu11 $\
 					 -O3 -march=native -pipe $\
 					 -Wall -Wextra -Wpedantic $\
 					 -Wno-missing-field-initializers -Wno-unused-parameter $\
 					 -Iinclude $\
+					 $(call ENABLE_CPU_OPTIMIZATION,avx,AVX) $\
+					 $(call ENABLE_CPU_OPTIMIZATION,sse2,SSE2) $\
+					 $(call ENABLE_CPU_OPTIMIZATION,neon,NEON) $\
 					 -Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
 LD_FLAGS := ${C_FLAGS} $\
 						-ldl -lm -lpthread $\
