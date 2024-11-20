@@ -5,19 +5,19 @@ $(if $(shell grep -o $(1) /proc/cpuinfo),$\
 endef
 
 CC ?= cc
-C_FLAGS := -std=gnu11 $\
-					 -O3 -march=native -pipe $\
-					 -Wall -Wextra -Wpedantic $\
-					 -Wno-missing-field-initializers -Wno-unused-parameter $\
-					 -Iinclude $\
-					 $(call ENABLE_CPU_OPTIMIZATION,avx,AVX) $\
-					 $(call ENABLE_CPU_OPTIMIZATION,sse2,SSE2) $\
-					 $(call ENABLE_CPU_OPTIMIZATION,neon,NEON) $\
-					 -Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
-LD_FLAGS := ${C_FLAGS} $\
-						-ldl -lm -lpthread $\
-						-Ldeps/orchestra -lorchestra $\
-						-Ldeps/tb_menu -ltb_menu
+CFLAGS ?= -O3 -march=native -pipe
+COMMONFLAGS :=  -std=gnu11 $\
+								-Wall -Wextra -Wpedantic $\
+								-Wno-missing-field-initializers -Wno-unused-parameter $\
+								-Iinclude $\
+								$(call ENABLE_CPU_OPTIMIZATION,avx,AVX) $\
+								$(call ENABLE_CPU_OPTIMIZATION,sse2,SSE2) $\
+								$(call ENABLE_CPU_OPTIMIZATION,neon,NEON) $\
+								-Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
+LDFLAGS := ${COMMONFLAGS} $\
+					 -ldl -lm -lpthread $\
+					 -Ldeps/orchestra -lorchestra $\
+					 -Ldeps/tb_menu -ltb_menu
 
 MAKE ?= make
 
@@ -39,7 +39,7 @@ PROCESSED_HEADER_FILES := $(if ${PROCESS_HEADER_FILES},$\
 TPLAYER_REQUIREMENTS := deps/orchestra/liborchestra.a deps/tb_menu/libtb_menu.a ${PROCESSED_HEADER_FILES} ${OBJECT_FILES}
 
 define COMPILE
-${CC} -c $(1) ${C_FLAGS} -o $(2)
+${CC} -c $(1) $(CFLAGS) ${COMMONFLAGS} -o $(2)
 
 endef
 define REMOVE
@@ -63,7 +63,7 @@ endef
 all: tplayer
 
 tplayer: ${TPLAYER_REQUIREMENTS}
-	${CC} ${OBJECT_FILES} ${LD_FLAGS} -o $@
+	${CC} ${OBJECT_FILES} ${LDFLAGS} -o $@
 	strip $@
 
 build/%.o: src/%.c
@@ -76,7 +76,7 @@ build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
 
 %.a:
-	$(MAKE) -C $(dir $@)
+	CFLAGS='${CFLAGS}' $(MAKE) -C $(dir $@)
 
 clean:
 	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
