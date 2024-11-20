@@ -76,7 +76,7 @@ build/%.o: src/%.c
 	$(call COMPILE,$<,$@)
 
 %.a:
-	CFLAGS='${C_FLAGS}' $(MAKE) -C $(dir $@)
+	$(MAKE) -C $(dir $@)
 
 clean:
 	$(call REMOVE_LIST,${TPLAYER_REQUIREMENTS})
