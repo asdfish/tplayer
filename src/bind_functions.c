@@ -44,8 +44,8 @@ int bind_function_change_song_function(const struct Argument* argument) {
 int bind_function_change_song_function_step(const struct Argument* argument) {
   if((int) selected_change_song_function + argument->i >= 0)
     selected_change_song_function += argument->i;
-  if(selected_change_song_function > change_song_functions_length)
-    selected_change_song_function = change_song_functions_length;
+  if(selected_change_song_function > change_song_functions_length - 1)
+    selected_change_song_function = change_song_functions_length - 1;
 
   redraw_status_bar = true;
   return EXIT_SUCCESS;
