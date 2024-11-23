@@ -13,7 +13,7 @@ COMMONFLAGS :=  -std=gnu11 $\
 								$(call ENABLE_CPU_OPTIMIZATION,avx,AVX) $\
 								$(call ENABLE_CPU_OPTIMIZATION,sse2,SSE2) $\
 								$(call ENABLE_CPU_OPTIMIZATION,neon,NEON) $\
-								-Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/termbox2
+								-Ideps/miniaudio -Ideps/orchestra/include -Ideps/tb_menu/include -Ideps/tb_menu/deps/termbox2
 LDFLAGS := ${COMMONFLAGS} $\
 					 -ldl -lm -lpthread $\
 					 -Ldeps/orchestra -lorchestra $\
